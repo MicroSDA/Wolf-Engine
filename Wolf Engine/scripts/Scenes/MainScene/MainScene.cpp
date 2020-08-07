@@ -73,8 +73,6 @@ void MainScene::Render()
         model->Draw();
     }
 
-    we::ResourceLoader loader;
-    loader.LoadModel("cube.bin");
    
 }
 
@@ -83,7 +81,7 @@ void MainScene::Prepare()
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
     we::ResourceLoader loader;
-    model = loader.LoadModel("cube.bin");
+    model = loader.LoadModel("./Resources/Models/cube.bin");
 
     //TODO: Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
 }

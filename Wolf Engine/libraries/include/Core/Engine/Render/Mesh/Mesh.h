@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/Engine/Render/Vertex/Vertex.h>
 #include <vector>
+#include <string>
 //#include <Core/Engine/Render/Drawable.h>
 
 namespace we {
@@ -19,6 +20,7 @@ namespace we {
 		GLuint VAO, VBO, EBO;
 		std::vector<we::Vertex> m_Vertices;
 		std::vector<unsigned int> m_Indices;
+		std::string m_Name;
 	};
 }
 

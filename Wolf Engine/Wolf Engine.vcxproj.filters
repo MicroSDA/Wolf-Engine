@@ -60,6 +60,12 @@
     <ClCompile Include="libraries\include\Core\Engine\Render\Object3D\Object3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="libraries\include\Core\Engine\Resources\ResourceLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libraries\include\Core\Engine\Render\Model3D\Model3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libraries\include\Core\Engine\Engine.h">
@@ -108,6 +114,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="libraries\include\Core\Engine\Render\Object3D\Object3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\Core\Engine\Resources\ResourceLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\Core\Engine\Render\Model3D\Model3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

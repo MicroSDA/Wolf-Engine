@@ -5,6 +5,8 @@ we::Mesh::Mesh()
     VAO = NULL;
     VBO = NULL;
     EBO = NULL;
+
+	m_Name = "undefined";
 }
 
 we::Mesh::Mesh(const we::Mesh& other)
@@ -15,6 +17,8 @@ we::Mesh::Mesh(const we::Mesh& other)
     VAO = NULL;
     VBO = NULL;
     EBO = NULL;
+
+	m_Name = "undefined";
 
 	Init();
 }
@@ -28,6 +32,8 @@ we::Mesh::Mesh(const std::vector<we::Vertex>& vertices,
     VAO = NULL;
     VBO = NULL;
     EBO = NULL;
+
+	m_Name = "undefined";
 
 	Init();
 }
@@ -58,6 +64,9 @@ void we::Mesh::Draw()
 
 void we::Mesh::Init()
 {
+	if (m_Vertices.size() == 0)
+		return;
+
 	glGenVertexArrays(1, &VAO);// Generate 1280 error GL_INVALID_ENUM, ignor, glew is broken
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);

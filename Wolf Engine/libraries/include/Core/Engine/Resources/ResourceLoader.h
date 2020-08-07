@@ -1,5 +1,8 @@
 #pragma once
 #include <Core/Engine/Render/Mesh/Mesh.h>
+#include <Core/Engine/Render/Model3D/Model3D.h>
+#include <iostream>
+#include <fstream>
 
 namespace we {
 
@@ -9,7 +12,7 @@ namespace we {
 		ResourceLoader();
 		~ResourceLoader();
 
-		Model* LoadModel();
+		Model3D* LoadModel(const std::string filePath);
 	private:
 	};
 }

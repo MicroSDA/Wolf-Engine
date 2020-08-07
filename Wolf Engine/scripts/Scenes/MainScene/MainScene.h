@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/Engine/Scene/Scene.h>
-#include <Core/Engine/Render/Mesh/Mesh.h>
 #include <Core/Engine/Render/Shader/Shader.h>
+#include <Core/Engine/Resources/ResourceLoader.h>
 
 //class Engine;
 
@@ -18,4 +18,5 @@ public:
 	we::Mesh   mesh;
 	we::Shader shader;
 	we::Camera camera;
+	we::Model3D* model;
 };

@@ -11,7 +11,7 @@ MainScene::MainScene()
 
 MainScene::~MainScene()
 {
-
+    delete model;
 }
 
 int MainScene::Process()
@@ -36,47 +36,52 @@ int MainScene::Process()
     if (m_Input->IsKeyboardBPressed(we::KEY_DOWN))
         camera.RotatePitch(-0.1f);
 
+    if (m_Input->IsKeyboardBPressed(we::KEY_LEFT))
+        camera.RotateYaw(0.1f);
+
+    if (m_Input->IsKeyboardBPressed(we::KEY_RIGHT))
+        camera.RotateYaw(-0.1f);
+
+    if (m_Input->IsKeyboardBPressed(we::KEY_DELETE))
+    {
+        if (model != nullptr)
+        {
+            delete model;
+            model = nullptr;
+        }
+    }
+        
+
 
     if (m_Input->IsKeyboardBPressed(we::KEY_ESCAPE))
     {
         return WE_FORCE_EXIT;
     }
 
-    std::cout << glm::degrees(camera.GetUpDirrection()).y << "\n";
+    //std::cout << glm::degrees(camera.GetUpDirrection()).y << "\n";
 }
 
 void MainScene::Render()
 {
    
-   /* glBegin(GL_TRIANGLES);
-    glColor3f(0.0f, 0.0f, 0.0f);
-    glVertex2f(0.0f, 1.0f);
-    glVertex2f(-1.0f, -1.0f);
-    glVertex2f(1.0f, -1.0f);
-    glEnd();*/
-  
-   /*glVertex2f(0.0f, -1.0f);
-    glVertex2f(1.0f, 1.0f);
-    glVertex2f(-1.0f, 1.0f);*/
  
     we::Transform transform;
     shader.Bind();
     shader.Update(transform, camera);
-    mesh.Draw();
+    if (model != nullptr)
+    {
+        model->Draw();
+    }
+
+   
 }
 
 void MainScene::Prepare()
 {
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
-    we::Vertex f(0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.f, 0.0f, 0.0f, 0);
-    we::Vertex s(-1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.f, 0.0f, 0.0f, 0);
-    we::Vertex t(1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.f, 0.0f, 0.0f, 0);
-
-    std::vector<unsigned int> i = { 0, 1, 2 };
-
-    mesh = we::Mesh(std::vector<we::Vertex>{f, s, t}, i);
-    
+    we::ResourceLoader loader;
+    model = loader.LoadModel("cube.bin");
 
     //TODO: Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
 }

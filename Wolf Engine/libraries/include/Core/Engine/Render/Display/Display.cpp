@@ -32,14 +32,18 @@ we::Display::Display()
 
 	SDL_ShowCursor(true);
 
+	//glewExperimental = GL_TRUE;
+
 	GLenum status = glewInit();
 
 	if (status != GLEW_OK) {
 		std::cerr << "Glew fialed to initialize" << std::endl;
 	}
 
-	SDL_PollEvent(&m_Event);
 	InitOpengl();
+
+	SDL_PollEvent(&m_Event);
+	
 }
 
 void we::Display::InitOpengl()
@@ -47,7 +51,7 @@ void we::Display::InitOpengl()
 	SetRenderProps(GL_DEPTH_TEST, true);
 	SetRenderProps(GL_CULL_FACE, true);
 	glCullFace(GL_BACK);
-	glFrontFace(GL_CW);
+	//glFrontFace(GL_FRONT);
 }
 
 void we::Display::WindowControlUpdate()

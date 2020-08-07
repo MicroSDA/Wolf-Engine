@@ -2,6 +2,7 @@
 #include <Core/Engine/Render/Vertex/Vertex.h>
 #include <vector>
 #include <string>
+#include <iostream>
 //#include <Core/Engine/Render/Drawable.h>
 
 namespace we {

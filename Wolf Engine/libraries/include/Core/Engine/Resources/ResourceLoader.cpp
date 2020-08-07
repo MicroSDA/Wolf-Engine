@@ -19,7 +19,6 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 	buffer.resize(header.size());
 	// Read header
 	infile.read((char*)buffer.c_str(), sizeof(char) * header.size());
-	std::cout << buffer << "\n";
 
 	if (buffer != header)
 	{
@@ -36,6 +35,7 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 	}
 
 	std::vector<we::Mesh> meshes;
+
 	meshes.resize(meshesCount);
 	//Read each mesh
 	for (unsigned int m = 0; m < meshesCount; m++)
@@ -52,7 +52,6 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 		std::string meshName;
 		meshName.resize(nameSize);
 		infile.read((char*)meshName.c_str(), sizeof(char) * nameSize);
-		std::cout << meshName << "\n";
 
 		//Read vertex possition size
 		unsigned int possSize = 0;

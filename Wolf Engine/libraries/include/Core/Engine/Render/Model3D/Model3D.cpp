@@ -11,7 +11,10 @@ we::Model3D::Model3D(std::vector<Mesh> meshes)
 
 we::Model3D::~Model3D()
 {
-	std::cout << "~Model3D(" << this << ")\n";
+	//std::cout << "~Model3D(" << this << ")\n";
+	//m_Meshes.erase(m_Meshes.begin(), m_Meshes.end());
+	m_Meshes.clear();// if soter a pointer, only pointer will be delited, not referenced objects shoudl deleate all object by pointer at first
+
 }
 
 void we::Model3D::Draw()

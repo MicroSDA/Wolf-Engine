@@ -7,6 +7,7 @@ we::Mesh::Mesh()
     EBO = NULL;
 
 	m_Name = "undefined";
+
 }
 
 we::Mesh::Mesh(const we::Mesh& other)
@@ -40,6 +41,16 @@ we::Mesh::Mesh(const std::vector<we::Vertex>& vertices,
 
 we::Mesh::~Mesh()
 {
+	//std::cout << "~Mesh(" << this <<")\n";
+	//__declspec(deprecated) 
+	//printf("Deleting %p\n", (void *)VAO);
+
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+
+	m_Vertices.clear();
+	m_Indices.clear();
 }
 
 /*we::Mesh we::Mesh::operator=(we::Mesh& other)

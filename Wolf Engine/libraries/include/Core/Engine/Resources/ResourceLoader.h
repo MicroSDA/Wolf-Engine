@@ -11,7 +11,6 @@ namespace we {
 	public:
 		ResourceLoader();
 		~ResourceLoader();
-
 		Model3D* LoadModel(const std::string filePath);
 	private:
 	};

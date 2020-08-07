@@ -15,7 +15,6 @@ public:
 	void Render();
 	void Prepare();
 
-	we::Mesh   mesh;
 	we::Shader shader;
 	we::Camera camera;
 	we::Model3D* model;

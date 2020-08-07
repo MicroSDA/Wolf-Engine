@@ -45,4 +45,5 @@ we::Vertex::Vertex(const GLfloat& possitionX,
 
 we::Vertex::~Vertex()
 {
+	//std::cout << "~Vertex(" << this << ")\n";
 }

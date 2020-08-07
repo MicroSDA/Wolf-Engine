@@ -73,6 +73,8 @@ void MainScene::Render()
         model->Draw();
     }
 
+    we::ResourceLoader loader;
+    loader.LoadModel("cube.bin");
    
 }
 

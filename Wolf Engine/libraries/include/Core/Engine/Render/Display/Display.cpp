@@ -11,6 +11,11 @@ we::Display::Display()
 	m_CB = 0.0f;
 	m_CA = 1.0f;
 
+	m_TimeNow = SDL_GetPerformanceCounter();
+	m_TimeLast = 0;
+	m_DeltaTime = 0.0f;
+
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);

@@ -8,6 +8,6 @@ we::Drawable::~Drawable()
 {
 }
 
-void we::Drawable::Draw()
+/*void we::Drawable::Draw()
 {
-}
+}*/

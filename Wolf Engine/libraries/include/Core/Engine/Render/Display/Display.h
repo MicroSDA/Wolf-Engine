@@ -80,6 +80,15 @@ namespace we {
         inline SDL_Event& GetEventHandler() { return m_Event; }
         inline SDL_Window& GetWindowHandler() const { return *m_Window; } 
         inline void SetRenderProps(GLenum prop, bool enable) { enable ? glEnable(prop): glDisable(prop); }
+        inline void UpdateTime()
+        {
+            m_TimeLast = m_TimeNow;
+            m_TimeNow = SDL_GetPerformanceCounter();
+            m_DeltaTime = (float)((m_TimeNow - m_TimeLast) * 1000 / (float)SDL_GetPerformanceFrequency());
+        }
+        // Return delatTime in milliseconds 
+        inline float GetDeltaTime()      { return m_DeltaTime; }
+        inline int   GetFramePerSecond() { return (1 / (m_DeltaTime * 0.001)); }
     private:
         Display();
         Display(const Display&);
@@ -100,6 +109,10 @@ namespace we {
         int m_Height;
         bool m_IsClosed;
         float m_CR, m_CG, m_CB, m_CA;
+
+        unsigned int m_TimeNow;
+        unsigned int m_TimeLast;
+        float    m_DeltaTime;
 
         SDL_Window* m_Window;
         SDL_GLContext m_GlContext;

@@ -1,7 +1,7 @@
 #pragma once
 #include <Core/Engine/Input/Input.h>
 #include <Core/Engine/Util.h>
-
+#include <Core/Engine/Resources/ResourceManager.h>
 #include <string>
 
 class Engine;
@@ -26,6 +26,7 @@ namespace we {
 	protected:
 		we::Display* m_Display;
 		we::Input* m_Input;
+		//we::ResourceManager m_ResManager;
 		void SetScene(const we::SCENES& scene);
 		void SetScene(const std::string& scene);
 	private:

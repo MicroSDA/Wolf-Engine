@@ -3,7 +3,7 @@
 void we::Engine::Start()
 {
     // Read configs and set scenes
-    m_Scenes.insert(std::pair< std::string, we::Scene*>("MainScene", new MainScene()));
+    m_Scenes.insert(std::pair<std::string, we::Scene*>("MainScene", new MainScene()));
 
     // Prepare values
     Prepare();
@@ -24,7 +24,8 @@ void we::Engine::Run()
   
     while (!m_Display->IsCloseRequested() && m_State == WE_RUNNING)
     {
-      
+        m_Display->UpdateTime();
+
         while (SDL_PollEvent(&m_Display->GetEventHandler()))
         {
             m_Display->WindowControlUpdate();
@@ -35,6 +36,8 @@ void we::Engine::Run()
         SceneProcess(m_Scenes[m_CurrentScene]->Process());
         /////////////////////////////////////////
         Render();
+
+      
     }
        
     Stop();
@@ -80,7 +83,7 @@ void we::Engine::CleanUp()
           delete e.second;
      }
 
-     m_Scenes.erase(m_Scenes.begin(), m_Scenes.end());
+     m_Scenes.clear();
 
      std::cout << ")\n";
 }

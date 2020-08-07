@@ -3,15 +3,17 @@
 
 MainScene::MainScene()
 	:Scene(),
-    shader("basicShader"),
-    camera(glm::vec3(2.0, 0.0, -10.0), 70.0f, float(800) / float(600), 0.01f, 3000.0f)
+    m_Camera(glm::vec3(0.0, 0.0, -10.0), 70.0f, float(800) / float(600), 0.01f, 3000.0f)
 {
     Prepare();
 }
 
 MainScene::~MainScene()
 {
-    delete model;
+    //TODO: create method for clear all data and put to Scene class
+    //we::ResourceManager::GetInstance().ResourceFree("BasicModel", we::SHADER);
+    //we::ResourceManager::GetInstance().ResourceFree("cube", we::MODEL3D);
+    we::ResourceManager::GetInstance().Truncate();
 }
 
 int MainScene::Process()
@@ -19,70 +21,75 @@ int MainScene::Process()
     //camera.RotatePitch(0.1f);
 
     if (m_Input->IsKeyboardBPressed(we::KEY_W))
-        camera.MoveForward(0.01f);
+        m_Camera.MoveForward(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_S))
-        camera.MoveBack(0.01f);
+        m_Camera.MoveBack(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_A))
-        camera.MoveLeft(0.01f);
+        m_Camera.MoveLeft(0.01f);
 
     if (m_Input->IsKeyboardBPressed(we::KEY_D))
-        camera.MoveRight(0.01f);
+        m_Camera.MoveRight(0.01f);
 
     if (m_Input->IsKeyboardBPressed(we::KEY_UP))
-        camera.RotatePitch(0.1f);
+        m_Camera.RotatePitch(0.1f);
 
     if (m_Input->IsKeyboardBPressed(we::KEY_DOWN))
-        camera.RotatePitch(-0.1f);
+        m_Camera.RotatePitch(-0.1f);
 
     if (m_Input->IsKeyboardBPressed(we::KEY_LEFT))
-        camera.RotateYaw(0.1f);
+        m_Camera.RotateYaw(0.1f);
 
     if (m_Input->IsKeyboardBPressed(we::KEY_RIGHT))
-        camera.RotateYaw(-0.1f);
+        m_Camera.RotateYaw(-0.1f);
+
+    if (m_Input->IsKeyboardBPressed(we::KEY_HOME))
+        m_Object3d[0].SetRotation(1.0, 0.0, 0.0);
+
 
     if (m_Input->IsKeyboardBPressed(we::KEY_DELETE))
     {
-        if (model != nullptr)
-        {
-            delete model;
-            model = nullptr;
-        }
+       we::ResourceManager::GetInstance().ResourceFree("cube", we::WE_RESOURCE::MODEL3D);
     }
-        
-
-
+      
     if (m_Input->IsKeyboardBPressed(we::KEY_ESCAPE))
     {
         return WE_FORCE_EXIT;
     }
 
-    //std::cout << glm::degrees(camera.GetUpDirrection()).y << "\n";
+   /*for (unsigned int i = 0; i < 5000000; i++)
+    {
+        int x = 10;
+        int y = x / 2;
+    }*/
+
+    std::cout << m_Display->GetDeltaTime() << "\n";
+    return WE_RUNNING;
+
 }
 
 void MainScene::Render()
 {
    
- 
-    we::Transform transform;
-    shader.Bind();
-    shader.Update(transform, camera);
-    if (model != nullptr)
+    for (auto& object : m_Object3d)
     {
-        model->Draw();
+        object.Draw(m_Camera);
     }
+  
 
-   
 }
 
 void MainScene::Prepare()
 {
+    //TODO: Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
-    we::ResourceLoader loader;
-    model = loader.LoadModel("./Resources/Models/cube.bin");
+    m_Object3d.push_back(we::Object3D(reinterpret_cast<we::Model3D*>(
+        we::ResourceManager::GetInstance().GetResource("cube", we::MODEL3D)
+        )));
+    
 
-    //TODO: Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
+
 }
 

@@ -15,7 +15,7 @@ namespace we {
 		Mesh(const std::vector<we::Vertex>& vertices, const std::vector<unsigned int>& indices);
 		~Mesh();
 		//Mesh operator=(we::Mesh&) {r}
-		void Draw();
+		void Draw() const;
 	private:
 		void Init();
 		GLuint VAO, VBO, EBO;

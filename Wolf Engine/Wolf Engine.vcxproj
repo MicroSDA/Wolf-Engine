@@ -164,7 +164,9 @@
     <ClCompile Include="libraries\include\Core\Engine\Render\Shader\Shader.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Transform\Transform.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Vertex\Vertex.cpp" />
+    <ClCompile Include="libraries\include\Core\Engine\Resources\Resource.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Resources\ResourceLoader.cpp" />
+    <ClCompile Include="libraries\include\Core\Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Scene\Scene.cpp" />
     <ClCompile Include="scripts\Scenes\MainScene\MainScene.cpp" />
     <ClCompile Include="WolfEngine.cpp" />
@@ -183,7 +185,9 @@
     <ClInclude Include="libraries\include\Core\Engine\Render\Shader\Shader.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Transform\Transform.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Vertex\Vertex.h" />
+    <ClInclude Include="libraries\include\Core\Engine\Resources\Resource.h" />
     <ClInclude Include="libraries\include\Core\Engine\Resources\ResourceLoader.h" />
+    <ClInclude Include="libraries\include\Core\Engine\Resources\ResourceManager.h" />
     <ClInclude Include="libraries\include\Core\Engine\Scene\Scene.h" />
     <ClInclude Include="libraries\include\Core\Engine\Util.h" />
     <ClInclude Include="scripts\Scenes\MainScene\MainScene.h" />

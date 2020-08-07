@@ -1,9 +1,7 @@
 #pragma once
 #include <Core/Engine/Scene/Scene.h>
-#include <Core/Engine/Render/Shader/Shader.h>
-#include <Core/Engine/Resources/ResourceLoader.h>
-
-//class Engine;
+#include <Core/Engine/Render/Object3D/Object3D.h>
+#include <map>
 
 class MainScene : public we::Scene
 {
@@ -15,7 +13,6 @@ public:
 	void Render();
 	void Prepare();
 
-	we::Shader shader;
-	we::Camera camera;
-	we::Model3D* model;
+	we::Camera m_Camera;
+	std::vector<we::Object3D> m_Object3d;
 };

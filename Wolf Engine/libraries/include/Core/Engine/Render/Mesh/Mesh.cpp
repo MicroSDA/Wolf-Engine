@@ -58,7 +58,7 @@ we::Mesh::~Mesh()
 	return other;
 }*/
 
-void we::Mesh::Draw()
+void we::Mesh::Draw() const
 {
 	glBindVertexArray(VAO);
 

@@ -1,6 +1,11 @@
 #include "Shader.h"
 #include <fstream>
 
+we::Shader::Shader() : we::Resource()
+{
+
+}
+
 we::Shader::Shader(const std::string& fileName)
 {
     m_Program = glCreateProgram();
@@ -21,6 +26,7 @@ we::Shader::Shader(const std::string& fileName)
 
 we::Shader::~Shader()
 {
+	std::cout << "~Shader(" << this << ")\n";
 	for (unsigned int i = 0; i < NUM_SHADERS; i++) {
 		glDeleteShader(m_Program);
 		glDeleteShader(m_Shaders[i]);

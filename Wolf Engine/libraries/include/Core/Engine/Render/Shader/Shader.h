@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Core/Engine/Resources/Resource.h>
 #include <Utilites/GLEW/glew.h>
 #include <Core/Engine/Render/Camera/Camera.h>
 #include <Core/Engine/Render/Transform/Transform.h>
@@ -8,11 +9,12 @@
 
 namespace we {
 
-	class Shader
+	class Shader : public we::Resource
 	{
 	public:
+		Shader();
 		Shader(const std::string& fileName);
-		~Shader();
+		virtual ~Shader();
 
 		void Bind();
 		void Update(const we::Transform& transform, const we::Camera& camera);

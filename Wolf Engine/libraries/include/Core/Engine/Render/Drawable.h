@@ -7,7 +7,8 @@ namespace we {
 	public:
 		Drawable();
 		virtual ~Drawable();
-		virtual void Draw() = 0;
+		//TODO: Later
+		//virtual void Draw() = 0;
 	protected:
 
 	};

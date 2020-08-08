@@ -84,9 +84,17 @@ void MainScene::Prepare()
     //TODO: Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
-    m_Object3d.push_back(we::Object3D(reinterpret_cast<we::Model3D*>(
-        we::ResourceManager::GetInstance().GetResource("model", we::MODEL3D)
-        )));
+    //TODO: find out how to get poinert to element which was initialized, back() isnt working
+
+    m_Object3d.push_back(we::Object3D());
+
+    m_Object3d.back().SetModel3D(reinterpret_cast<we::Model3D*>(
+        we::ResourceManager::GetInstance().GetResource("model", we::MODEL3D, m_Object3d.back())
+        ));
+
+   /* m_Object3d.push_back(we::Object3D(reinterpret_cast<we::Model3D*>(
+        we::ResourceManager::GetInstance().GetResource("model", we::MODEL3D, we::Object3D())
+        )));*/
     
 
 

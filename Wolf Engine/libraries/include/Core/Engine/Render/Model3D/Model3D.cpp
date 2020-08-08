@@ -9,7 +9,7 @@ we::Model3D::Model3D():we::Resource()
 we::Model3D::Model3D(std::vector<Mesh> meshes): we::Resource()
 {
 	m_pShader = reinterpret_cast<we::Shader*>(
-		we::ResourceManager::GetInstance().GetResource("BasicModel", we::SHADER)
+		we::ResourceManager::GetInstance().GetResource("BasicModel", we::SHADER, we::Drawable())
 		);
 
 	m_Meshes = meshes;

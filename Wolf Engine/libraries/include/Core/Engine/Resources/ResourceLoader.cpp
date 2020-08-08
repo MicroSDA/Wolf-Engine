@@ -98,6 +98,50 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 			infile.read((char*)&indices[i], sizeof(unsigned int));
 		}
 
+		//Read texures
+		unsigned int diffusSize = 0;
+		infile.read((char*)&diffusSize, sizeof(unsigned int));
+		if (diffusSize != 0)
+		{
+			//Read difuse
+			std::string diffuse;
+			diffuse.resize(diffusSize);
+			infile.read((char*)diffuse.c_str(), sizeof(char) * diffusSize);
+			std::cout << diffuse << "\n";
+		}
+
+		unsigned int specularSize = 0;
+		infile.read((char*)&specularSize, sizeof(unsigned int));
+		if (specularSize != 0)
+		{
+			//Read specular
+			std::string specular;
+			specular.resize(specularSize);
+			infile.read((char*)specular.c_str(), sizeof(char) * specularSize);
+			std::cout << specular << "\n";
+		}
+
+		unsigned int heightMapSize = 0;
+		infile.read((char*)&heightMapSize, sizeof(unsigned int));
+		if (heightMapSize != 0)
+		{
+			//Read height map
+			std::string heightMap;
+			heightMap.resize(heightMapSize);
+			infile.read((char*)heightMap.c_str(), sizeof(char) * heightMapSize);
+			std::cout << heightMap << "\n";
+		}
+
+		unsigned int shinnesSize = 0;
+		infile.read((char*)&shinnesSize, sizeof(unsigned int));
+		if (shinnesSize != 0)
+		{
+			//Read shinnes
+			std::string shinnes;
+			shinnes.resize(shinnesSize);
+			infile.read((char*)shinnes.c_str(), sizeof(char) * shinnesSize);
+			std::cout << shinnes << "\n";
+		}
 
 		meshes[m] = we::Mesh(vertices, indices);
 	}

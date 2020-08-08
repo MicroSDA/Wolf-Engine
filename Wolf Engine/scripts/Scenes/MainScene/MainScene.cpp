@@ -85,7 +85,7 @@ void MainScene::Prepare()
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
     m_Object3d.push_back(we::Object3D(reinterpret_cast<we::Model3D*>(
-        we::ResourceManager::GetInstance().GetResource("nanosuit", we::MODEL3D)
+        we::ResourceManager::GetInstance().GetResource("model", we::MODEL3D)
         )));
     
 

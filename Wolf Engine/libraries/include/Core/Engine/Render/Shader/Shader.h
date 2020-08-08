@@ -6,6 +6,7 @@
 #include <Core/Engine/Render/Transform/Transform.h>
 #include <iostream>
 #include <string>
+#include <regex>
 
 namespace we {
 

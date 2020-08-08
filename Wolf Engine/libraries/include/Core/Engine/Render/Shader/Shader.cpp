@@ -17,11 +17,17 @@ we::Shader::Shader(const std::string& fileName)
         glAttachShader(m_Program, m_Shaders[i]);
     }
 
+	/*glBindAttribLocation(m_Program, 0, "position");
+	glBindAttribLocation(m_Program, 1, "texCoords");
+	glBindAttribLocation(m_Program, 2, "normal");*/
+
 	glLinkProgram(m_Program);
 	CheckShaderError(m_Program, GL_LINK_STATUS, true, "Error: Shader program linkin faild: ");
 
 	glValidateProgram(m_Program);
 	CheckShaderError(m_Program, GL_VALIDATE_STATUS, true, "Error: Shader program validate faild: ");
+
+	
 }
 
 we::Shader::~Shader()
@@ -49,6 +55,7 @@ void we::Shader::Update(const we::Transform& transform, const we::Camera& camera
 	GLuint transformUnifLoaction       = glGetUniformLocation(m_Program, "modelMatrix");
 	GLuint viewUnifLoaction            = glGetUniformLocation(m_Program, "viewMatrix");
 	GLuint projectionUnifLoaction      = glGetUniformLocation(m_Program, "projectionMatrix");
+
 
 	glUniformMatrix4fv(transformUnifLoaction, 1, GL_FALSE, &transform_u[0][0]);
 	glUniformMatrix4fv(viewUnifLoaction, 1, GL_FALSE, &view[0][0]);
@@ -84,12 +91,20 @@ std::string we::Shader::LoadShader(const std::string& fileName)
 	std::ifstream file;
 	file.open(fileName.c_str());
 
+	/*const std::regex include("^[ ]*\*[ ]*#[ ]*include[ ]+[\"<](.*)[\">].*");
+	std::smatch match;*/
+
 	std::string output;
 	std::string line;
 	if (file.is_open()) {
 
 		while (file.good()) {
 			std::getline(file, line);
+			/*if (std::regex_search(line, match, include))
+			{
+				std::cout << match[1] << "\n";
+			}*/
+
 			output.append(line + "\n");
 		}
 

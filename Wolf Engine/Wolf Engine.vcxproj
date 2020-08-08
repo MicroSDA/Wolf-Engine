@@ -108,7 +108,7 @@
       <AdditionalIncludeDirectories>.\Scripts;.\libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -142,7 +142,7 @@
       <AdditionalIncludeDirectories>.\Scripts;.\libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -192,6 +192,10 @@
     <ClInclude Include="libraries\include\Core\Engine\Util.h" />
     <ClInclude Include="scripts\Scenes\MainScene\MainScene.h" />
     <ClInclude Include="scripts\Scenes\SceneRegister.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\BasicModel.frag" />
+    <None Include="Resources\Shaders\BasicModel.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

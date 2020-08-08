@@ -10,7 +10,6 @@ MainScene::MainScene()
 
 MainScene::~MainScene()
 {
-    //TODO: create method for clear all data and put to Scene class
     //we::ResourceManager::GetInstance().ResourceFree("BasicModel", we::SHADER);
     //we::ResourceManager::GetInstance().ResourceFree("cube", we::MODEL3D);
     we::ResourceManager::GetInstance().Truncate();
@@ -64,7 +63,7 @@ int MainScene::Process()
         int y = x / 2;
     }*/
 
-    std::cout << m_Display->GetDeltaTime() << "\n";
+    //std::cout << m_Display->GetDeltaTime() << "\n";
     return WE_RUNNING;
 
 }
@@ -86,7 +85,7 @@ void MainScene::Prepare()
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
     m_Object3d.push_back(we::Object3D(reinterpret_cast<we::Model3D*>(
-        we::ResourceManager::GetInstance().GetResource("cube", we::MODEL3D)
+        we::ResourceManager::GetInstance().GetResource("nanosuit", we::MODEL3D)
         )));
     
 

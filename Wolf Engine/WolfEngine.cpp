@@ -3,7 +3,9 @@
 
 int main(int argc, char* argv[])
 {
-	we::Engine::getInstance().Start();
+
 	
+	we::Engine::getInstance().Start();
+   
 	return EXIT_SUCCESS;
 }

@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#define WE_DISPLAY_BASE_WIDTH  800 
-#define WE_DISPLAY_BASE_HEIGHT 600 
+#define WE_DISPLAY_BASE_WIDTH  1680 
+#define WE_DISPLAY_BASE_HEIGHT 1050 
 #define WE_DISPLAY_TITLE "Wolf Engine" 
 
 namespace we {

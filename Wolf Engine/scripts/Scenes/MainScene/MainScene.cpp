@@ -26,32 +26,51 @@ int MainScene::Process()
     //camera.RotatePitch(0.1f);
    
 
-   /* if (m_Input->IsKeyboardBPressed(we::KEY_W))
+   if (m_Input->IsKeyboardBPressed(we::KEY_W))
         m_Camera.MoveForward(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_S))
         m_Camera.MoveBack(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_A))
-        m_Camera.MoveLeft(0.01f);
+        m_Camera.MoveLeft(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_D))
-        m_Camera.MoveRight(0.01f);
+        m_Camera.MoveRight(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_UP))
-        m_Camera.RotatePitch(0.1f);
+        m_Camera.RotatePitch(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_DOWN))
-        m_Camera.RotatePitch(-0.1f);
+        m_Camera.RotatePitch(-0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_LEFT))
-        m_Camera.RotateYaw(0.1f);
+        m_Camera.RotateYaw(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_RIGHT))
-        m_Camera.RotateYaw(-0.1f);
+        m_Camera.RotateYaw(-0.05f * m_Display->GetDeltaTime());
 
-    if (m_Input->IsKeyboardBPressed(we::KEY_HOME))
-        m_Object3d[0].SetRotation(1.0, 0.0, 0.0);*/
+    if (m_Input->IsKeyboardBPressed(we::KEY_INSERT))
+        m_pObject3d.back()->SetRotation(-90, 0, 0);
+
+  
+    if (m_Input->IsKeyboardBPressed(we::KEY_END))
+    {
+        m_pObject3d.push_back(new we::Object3D());
+        m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
+            we::ResourceManager::GetInstance().GetResource("model", m_pObject3d.back())
+            ));
+        float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
+        float y = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
+        float z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
+
+        float rx = static_cast <float> (rand()) / static_cast <float> (RAND_MAX/360);
+        float ry = static_cast <float> (rand()) / static_cast <float> (RAND_MAX/360);
+        float rz = static_cast <float> (rand()) / static_cast <float> (RAND_MAX/360);
+
+        m_pObject3d.back()->SetPossition(x, y, z);
+        m_pObject3d.back()->SetRotation(rx, ry, rz);
+    }
 
 
     if (m_Input->IsKeyboardBPressed(we::KEY_DELETE))
@@ -60,8 +79,12 @@ int MainScene::Process()
        std::map<we::Model3D*, std::vector<we::Drawable*>> ob = ref["model"];
        we::Object3D* o = reinterpret_cast<we::Object3D*>(ob.begin()->second[0]);*/
       
-       delete m_pObject3d[0];
-       m_pObject3d.erase(m_pObject3d.begin());
+        if (m_pObject3d.size() > 0)
+        {
+            delete m_pObject3d.back();
+            m_pObject3d.pop_back();
+        }
+      
 
        //we::ResourceManager::GetInstance().ResourceFree("model", we::MODEL3D);
        //we::ResourceManager::GetInstance().ResourceFree("cube", we::WE_RESOURCE::MODEL3D);
@@ -104,20 +127,28 @@ void MainScene::Prepare()
     //m_pObject3d.push_back(new we::Object3D());
 
 
-    m_pObject3d.push_back(new we::Object3D());
+    /*m_pObject3d.push_back(new we::Object3D());
     m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
         we::ResourceManager::GetInstance().GetResource("model", m_pObject3d[0])
         ));
+    m_pObject3d[0]->SetPossition(0, 0, 0);
 
     m_pObject3d.push_back(new we::Object3D());
     m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
         we::ResourceManager::GetInstance().GetResource("model", m_pObject3d[1])
         ));
+    m_pObject3d[1]->SetPossition(10, 0, 0);
+
     m_pObject3d.push_back(new we::Object3D());
     m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
         we::ResourceManager::GetInstance().GetResource("model", m_pObject3d[2])
+        ));   m_pObject3d.push_back(new we::Object3D());
+    m_pObject3d[2]->SetPossition(20, 0, 0);
+
+    m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
+        we::ResourceManager::GetInstance().GetResource("nanosuit", m_pObject3d[3])
         ));
-  
+    m_pObject3d[3]->SetPossition(30, 0, 0);*/
     
 
 

@@ -22,6 +22,7 @@ namespace we {
 	private:
 		std::vector<we::Mesh> m_Meshes;
 		we::Shader* m_pShader;
+
 	};
 }
 

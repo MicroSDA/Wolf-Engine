@@ -13,13 +13,20 @@ MainScene::~MainScene()
     //we::ResourceManager::GetInstance().ResourceFree("BasicModel", we::SHADER);
     //we::ResourceManager::GetInstance().ResourceFree("cube", we::MODEL3D);
     we::ResourceManager::GetInstance().Truncate();
+
+    for (auto object : m_pObject3d)
+    {
+        delete object;
+    }
+    m_pObject3d.clear();
 }
 
 int MainScene::Process()
 {
     //camera.RotatePitch(0.1f);
+   
 
-    if (m_Input->IsKeyboardBPressed(we::KEY_W))
+   /* if (m_Input->IsKeyboardBPressed(we::KEY_W))
         m_Camera.MoveForward(0.05f * m_Display->GetDeltaTime());
 
     if (m_Input->IsKeyboardBPressed(we::KEY_S))
@@ -44,12 +51,20 @@ int MainScene::Process()
         m_Camera.RotateYaw(-0.1f);
 
     if (m_Input->IsKeyboardBPressed(we::KEY_HOME))
-        m_Object3d[0].SetRotation(1.0, 0.0, 0.0);
+        m_Object3d[0].SetRotation(1.0, 0.0, 0.0);*/
 
 
     if (m_Input->IsKeyboardBPressed(we::KEY_DELETE))
     {
-       we::ResourceManager::GetInstance().ResourceFree("cube", we::WE_RESOURCE::MODEL3D);
+       /*std::map<std::string, std::map<we::Model3D*, std::vector<we::Drawable*>>> ref = we::ResourceManager::GetInstance().GetRefers();
+       std::map<we::Model3D*, std::vector<we::Drawable*>> ob = ref["model"];
+       we::Object3D* o = reinterpret_cast<we::Object3D*>(ob.begin()->second[0]);*/
+      
+       delete m_pObject3d[0];
+       m_pObject3d.erase(m_pObject3d.begin());
+
+       //we::ResourceManager::GetInstance().ResourceFree("model", we::MODEL3D);
+       //we::ResourceManager::GetInstance().ResourceFree("cube", we::WE_RESOURCE::MODEL3D);
     }
       
     if (m_Input->IsKeyboardBPressed(we::KEY_ESCAPE))
@@ -71,12 +86,11 @@ int MainScene::Process()
 void MainScene::Render()
 {
    
-    for (auto& object : m_Object3d)
+    for (auto object : m_pObject3d)
     {
-        object.Draw(m_Camera);
+        object->Draw(m_Camera);
     }
   
-
 }
 
 void MainScene::Prepare()
@@ -86,15 +100,24 @@ void MainScene::Prepare()
 
     //TODO: find out how to get poinert to element which was initialized, back() isnt working
 
-    m_Object3d.push_back(we::Object3D());
+    //Попадают разные аддреса туда, адресс нулевого елемента отличается;
+    //m_pObject3d.push_back(new we::Object3D());
 
-    m_Object3d.back().SetModel3D(reinterpret_cast<we::Model3D*>(
-        we::ResourceManager::GetInstance().GetResource("model", we::MODEL3D, m_Object3d.back())
+
+    m_pObject3d.push_back(new we::Object3D());
+    m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
+        we::ResourceManager::GetInstance().GetResource("model", m_pObject3d[0])
         ));
 
-   /* m_Object3d.push_back(we::Object3D(reinterpret_cast<we::Model3D*>(
-        we::ResourceManager::GetInstance().GetResource("model", we::MODEL3D, we::Object3D())
-        )));*/
+    m_pObject3d.push_back(new we::Object3D());
+    m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
+        we::ResourceManager::GetInstance().GetResource("model", m_pObject3d[1])
+        ));
+    m_pObject3d.push_back(new we::Object3D());
+    m_pObject3d.back()->SetModel3D(reinterpret_cast<we::Model3D*>(
+        we::ResourceManager::GetInstance().GetResource("model", m_pObject3d[2])
+        ));
+  
     
 
 

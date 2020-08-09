@@ -1,23 +1,32 @@
 #include "Object3D.h"
+#include <Core/Engine/Resources/ResourceManager.h>
 
 we::Object3D::Object3D():
-	m_pModel3D(nullptr)
+	m_pModel3D(nullptr),
+	m_pOrigin(nullptr)
 {
-
 }
 
-we::Object3D::Object3D(const we::Model3D* model)
+we::Object3D::Object3D(const we::Model3D* model, std::vector<Object3D*>& origin, unsigned int index)
 {
+	m_pOrigin = &origin;
+	m_Index = index;
 	m_pModel3D = model;
+	std::cout << "Im creating at:" << this << "\n";
 }
 
 we::Object3D::~Object3D()
 {
+	if (m_pModel3D != nullptr)
+	{
+		we::ResourceManager::GetInstance().ResourceFree(m_pModel3D, we::MODEL3D, (this));
+		std::cout << "~Object3D(" << this << ")\n";
+	}
+	  
 }
 
 void we::Object3D::Draw(we::Camera& camera)
 {
-	//TODO: Chech if model was deleted;
 	m_pModel3D->Draw(m_Transform, camera);
 }
 

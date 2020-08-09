@@ -32,18 +32,23 @@ we::Shader::Shader(const std::string& fileName)
 
 we::Shader::~Shader()
 {
+	
+	glUseProgram(0);
 	std::cout << "~Shader(" << this << ")\n";
 	for (unsigned int i = 0; i < NUM_SHADERS; i++) {
-		glDeleteShader(m_Program);
 		glDeleteShader(m_Shaders[i]);
 	}
-
 	glDeleteProgram(m_Program);
 }
 
 void we::Shader::Bind()
 {
 	glUseProgram(m_Program);
+}
+
+void we::Shader::Unbind()
+{
+	glUseProgram(0);
 }
 
 void we::Shader::Update(const we::Transform& transform, const we::Camera& camera)

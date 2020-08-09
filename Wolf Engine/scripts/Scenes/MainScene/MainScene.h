@@ -14,5 +14,5 @@ public:
 	void Prepare();
 
 	we::Camera m_Camera;
-	std::vector<we::Object3D> m_Object3d;
+	std::vector<we::Object3D*> m_pObject3d;
 };

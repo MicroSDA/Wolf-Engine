@@ -18,6 +18,7 @@ namespace we {
 		virtual ~Shader();
 
 		void Bind();
+		static void Unbind();
 		void Update(const we::Transform& transform, const we::Camera& camera);
 	protected:
 

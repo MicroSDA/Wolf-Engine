@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#define WE_DISPLAY_BASE_WIDTH  1680 
-#define WE_DISPLAY_BASE_HEIGHT 1050 
+#define WE_DISPLAY_BASE_WIDTH  1000 
+#define WE_DISPLAY_BASE_HEIGHT 800 
 #define WE_DISPLAY_TITLE "Wolf Engine" 
 
 namespace we {
@@ -42,14 +42,9 @@ namespace we {
         // Destroy Window
         inline void Destroy()
         {
-            
             SDL_GL_DeleteContext(m_GlContext);
             SDL_DestroyWindow(m_Window);
             SDL_Quit();
-            std::cout << "~Display(\n";
-            std::cout << "m_GlContext(" << &m_GlContext << ")\n";
-            std::cout << "m_Window(" << &m_Window << ")\n";
-            std::cout << ")" << this <<"\n";
         }
         // Set width and height size
         inline void SetSize(const int& width, const int& height)

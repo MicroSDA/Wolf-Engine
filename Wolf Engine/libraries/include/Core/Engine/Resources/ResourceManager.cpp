@@ -21,37 +21,73 @@ we::ResourceManager::~ResourceManager()
 	m_pModels3d.clear();
 }
 
-we::Resource* we::ResourceManager::GetResource(const std::string& fileName, we::Object3D* callObj)
+we::Resource* we::ResourceManager::Hold(const std::string& fileName, const we::WE_RESOURCE& type, const we::RHolder* holder)
 {
-	if (m_pModels3d.find(fileName) != m_pModels3d.end())
+	switch (type)
 	{
-		if (std::find(
-			m_pModels3d.find(fileName)->second.begin()->second.begin(),
-			m_pModels3d.find(fileName)->second.begin()->second.end(),
-			callObj) == m_pModels3d.find(fileName)->second.begin()->second.end())
+	case we::MODEL3D:
+		if (m_pModels3d.find(fileName) != m_pModels3d.end())
 		{
-			m_pModels3d.find(fileName)->second.begin()->second.push_back(callObj);
+			if (std::find(
+				m_pModels3d.find(fileName)->second.begin()->second.begin(),
+				m_pModels3d.find(fileName)->second.begin()->second.end(),
+				holder) == m_pModels3d.find(fileName)->second.begin()->second.end())
+			{
+				m_pModels3d.find(fileName)->second.begin()->second.push_back(holder);
+			}
+
+			return m_pModels3d.find(fileName)->second.begin()->first;
+
+		}
+		else {
+
+			Model3D* pM = m_Loader.LoadModel("./Resources/Models/" + fileName + ".bin");
+			std::map<we::Resource*, std::vector<const we::RHolder*>> el;
+			el.insert(std::pair<we::Resource*, std::vector<const we::RHolder*>>(
+				pM, std::vector<const we::RHolder*>{ holder }));
+			m_pModels3d.insert(std::pair<std::string,
+				std::map<we::Resource*,
+				std::vector<const we::RHolder*>>>(fileName, el));
+
+			return pM;
 		}
 
-		return m_pModels3d.find(fileName)->second.begin()->first;
+		break;
+	case we::SHADER:
+		if (m_pShaders.find(fileName) != m_pShaders.end())
+		{
+			if (std::find(
+				m_pShaders.find(fileName)->second.begin()->second.begin(),
+				m_pShaders.find(fileName)->second.begin()->second.end(),
+				holder) == m_pShaders.find(fileName)->second.begin()->second.end())
+			{
+				m_pShaders.find(fileName)->second.begin()->second.push_back(holder);
+			}
 
+			return m_pShaders.find(fileName)->second.begin()->first;
+
+		}
+		else {
+
+			we::Shader* pS = new we::Shader(fileName);
+			std::map<we::Resource*, std::vector<const we::RHolder*>> el;
+			el.insert(std::pair<we::Resource*, std::vector<const we::RHolder*>>(
+				pS, std::vector<const we::RHolder*>{ holder }));
+			m_pShaders.insert(std::pair<std::string,
+				std::map<we::Resource*,
+				std::vector<const we::RHolder*>>>(fileName, el));
+
+			return pS;
+		}
+		break;
+	default:
+		return nullptr;
+		break;
 	}
-	else {
-
-		Model3D* pM = m_Loader.LoadModel("./Resources/Models/" + fileName + ".bin");
-		std::map<we::Resource*, std::vector<we::Object3D*>> el;
-		el.insert(std::pair<we::Resource*, std::vector<we::Object3D*>>(
-			pM, std::vector<we::Object3D*>{ callObj }));
-		m_pModels3d.insert(std::pair<std::string,
-			std::map<we::Resource*,
-			std::vector<we::Object3D*>>>(fileName, el));
-
-		return pM;
-	}
-
+	
 }
 
-we::Resource* we::ResourceManager::GetResource(const std::string& fileName, we::Model3D* callObj)
+/*we::Resource* we::ResourceManager::GetResource(const std::string& fileName, we::Model3D* callObj)
 {
 
 	if (m_pShaders.find(fileName) != m_pShaders.end())
@@ -80,24 +116,35 @@ we::Resource* we::ResourceManager::GetResource(const std::string& fileName, we::
 		return pS;
 	}
 
-}
+}*/
 
-void we::ResourceManager::ResourceFree(const we::Resource* resource, const we::WE_RESOURCE& resType, we::Object3D* callObject)
+void we::ResourceManager::UnHold(const we::Resource* resource, const we::WE_RESOURCE& type, const we::RHolder* holder)
 {
-	switch (resType)
+	switch (type)
 	{
 	case we::WE_RESOURCE::SHADER:
-
 		for (auto it = m_pShaders.begin(); it != m_pShaders.end(); it++)
 		{
 			if (resource == it->second.begin()->first)
 			{
-				delete it->second.begin()->first;
-				m_pShaders.erase(it);
-				std::cout << "Resource free(" << resource << ")\n";
-				return;
-			}
+				if (it->second.begin()->second.size() > 1)
+				{ // This will be delited any way cose Model3d present just one
+					for (unsigned int m = 0; m < it->second.begin()->second.size(); m++)
+					{
+						if (holder == it->second.begin()->second[m])
+						{
+							it->second.begin()->second.erase(it->second.begin()->second.begin() + m);
+						}
 
+					}
+				}
+				else {
+					delete it->second.begin()->first;
+					m_pShaders.erase(it);
+					std::cout << "Resource free(" << resource << ")\n";
+					return;
+				}
+			}
 		}
 		break;
 	case we::WE_RESOURCE::MODEL3D:
@@ -110,7 +157,7 @@ void we::ResourceManager::ResourceFree(const we::Resource* resource, const we::W
 					for (unsigned int m = 0; m < it->second.begin()->second.size(); m++)
 					{
 					
-						if (callObject == it->second.begin()->second[m])
+						if (holder == it->second.begin()->second[m])
 						{
 							it->second.begin()->second.erase(it->second.begin()->second.begin() + m);
 						}
@@ -130,7 +177,66 @@ void we::ResourceManager::ResourceFree(const we::Resource* resource, const we::W
 		break;
 	}
 }
-void we::ResourceManager::ResourceFree(const we::Resource* resource, const we::WE_RESOURCE& resType, we::Model3D* callObject)
+void we::ResourceManager::UnHold(const std::string& fileName, const we::WE_RESOURCE& type, const we::RHolder* holder)
+{
+	switch (type)
+	{
+	case we::WE_RESOURCE::SHADER:
+		for (auto it = m_pShaders.begin(); it != m_pShaders.end(); it++)
+		{
+			if (fileName == it->first)
+			{
+				if (it->second.begin()->second.size() > 1)
+				{ // This will be delited any way cose Model3d present just one
+					for (unsigned int m = 0; m < it->second.begin()->second.size(); m++)
+					{
+						if (holder == it->second.begin()->second[m])
+						{
+							it->second.begin()->second.erase(it->second.begin()->second.begin() + m);
+						}
+
+					}
+				}
+				else {
+					delete it->second.begin()->first;
+					m_pShaders.erase(it);
+					std::cout << "Resource free(" << fileName << ")\n";
+					return;
+				}
+			}
+		}
+		break;
+	case we::WE_RESOURCE::MODEL3D:
+		for (auto it = m_pModels3d.begin(); it != m_pModels3d.end(); it++)
+		{
+			if (fileName == it->first)
+			{
+				if (it->second.begin()->second.size() > 1)
+				{
+					for (unsigned int m = 0; m < it->second.begin()->second.size(); m++)
+					{
+
+						if (holder == it->second.begin()->second[m])
+						{
+							it->second.begin()->second.erase(it->second.begin()->second.begin() + m);
+						}
+
+					}
+				}
+				else {
+					delete it->second.begin()->first;
+					m_pModels3d.erase(it);
+					std::cout << "Resource free(" << fileName << ")\n";
+					return;
+				}
+			}
+		}
+		break;
+	default:
+		break;
+	}
+}
+/*void we::ResourceManager::ResourceFree(const we::Resource* resource, const we::WE_RESOURCE& resType, we::Model3D* callObject)
 {
 	
 	switch (resType)
@@ -165,9 +271,9 @@ void we::ResourceManager::ResourceFree(const we::Resource* resource, const we::W
 	default:
 		break;
 	}
-}
+}*/
 
-void we::ResourceManager::ResourceFree(const std::string& fileName, const we::WE_RESOURCE& resType, we::Object3D* callObject)
+/*void we::ResourceManager::ResourceFree(const std::string& fileName, const we::WE_RESOURCE& resType, we::Object3D* callObject)
 {
 	switch (resType)
 	{
@@ -213,7 +319,7 @@ void we::ResourceManager::ResourceFree(const std::string& fileName, const we::WE
 	default:
 		break;
 	}
-}
+}*/
 
 void we::ResourceManager::Truncate()
 {

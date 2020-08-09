@@ -76,7 +76,7 @@ void we::Engine::SceneProcess(const int& stateKey)
 
 void we::Engine::CleanUp()
 {
-     std::cout << "Engine::CleanUp(\n";
+     std::cout << "Engine::CleanUp()\n";
      m_Display->Destroy();
      for (const auto& e : m_Scenes)
      {
@@ -85,7 +85,6 @@ void we::Engine::CleanUp()
 
      m_Scenes.clear();
 
-     std::cout << ")\n";
 }
 
 void we::Engine::SetCurrentScene(const int& scene)

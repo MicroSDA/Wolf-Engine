@@ -1,18 +1,22 @@
 #include "Model3D.h"
 #include <Core/Engine/Resources/ResourceManager.h>
 
-we::Model3D::Model3D():we::Resource()
+we::Model3D::Model3D():we::Resource(), we::RHolder()
 {
 	m_pShader = nullptr;
+
+	std::cout << "Model3D(" << this << ")\n";
 }
 
-we::Model3D::Model3D(std::vector<Mesh> meshes): we::Resource()
+we::Model3D::Model3D(std::vector<Mesh> meshes): we::Resource(), we::RHolder()
 {
 	m_pShader = reinterpret_cast<we::Shader*>(
-		we::ResourceManager::GetInstance().GetResource("BasicModel", this)
+		we::ResourceManager::GetInstance().Hold("BasicModel", we::SHADER, this)
 		);
 
 	m_Meshes = meshes;
+
+	std::cout << "Model3D(" << this << ")\n";
 }
 
 we::Model3D::~Model3D()
@@ -21,7 +25,7 @@ we::Model3D::~Model3D()
 	//There incorect, poiner will be nulptr and unbind will not work
 	if (m_pShader != nullptr)
 	{	
-		we::ResourceManager::GetInstance().ResourceFree(m_pShader, we::SHADER, this);
+		we::ResourceManager::GetInstance().UnHold(m_pShader, we::SHADER, this);
 		std::cout << "~Model3D(" << this << ")\n";
 	}
 	

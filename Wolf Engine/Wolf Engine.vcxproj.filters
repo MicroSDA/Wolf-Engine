@@ -75,6 +75,9 @@
     <ClCompile Include="libraries\include\Core\Engine\Resources\Resource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="libraries\include\Core\Engine\Resources\RHolder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libraries\include\Core\Engine\Engine.h">
@@ -137,6 +140,9 @@
     <ClInclude Include="libraries\include\Core\Engine\Resources\Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="libraries\include\Core\Engine\Resources\RHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Shaders\BasicModel.frag">
@@ -145,5 +151,6 @@
     <None Include="Resources\Shaders\BasicModel.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include=".editorconfig" />
   </ItemGroup>
 </Project>

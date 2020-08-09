@@ -167,6 +167,7 @@
     <ClCompile Include="libraries\include\Core\Engine\Resources\Resource.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Resources\ResourceLoader.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Resources\ResourceManager.cpp" />
+    <ClCompile Include="libraries\include\Core\Engine\Resources\RHolder.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Scene\Scene.cpp" />
     <ClCompile Include="scripts\Scenes\MainScene\MainScene.cpp" />
     <ClCompile Include="WolfEngine.cpp" />
@@ -188,12 +189,14 @@
     <ClInclude Include="libraries\include\Core\Engine\Resources\Resource.h" />
     <ClInclude Include="libraries\include\Core\Engine\Resources\ResourceLoader.h" />
     <ClInclude Include="libraries\include\Core\Engine\Resources\ResourceManager.h" />
+    <ClInclude Include="libraries\include\Core\Engine\Resources\RHolder.h" />
     <ClInclude Include="libraries\include\Core\Engine\Scene\Scene.h" />
     <ClInclude Include="libraries\include\Core\Engine\Util.h" />
     <ClInclude Include="scripts\Scenes\MainScene\MainScene.h" />
     <ClInclude Include="scripts\Scenes\SceneRegister.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="Resources\Shaders\BasicModel.frag" />
     <None Include="Resources\Shaders\BasicModel.vert" />
   </ItemGroup>

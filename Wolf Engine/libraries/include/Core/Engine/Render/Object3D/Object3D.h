@@ -11,7 +11,7 @@ namespace we {
 	{
 	public:
 		Object3D();
-		Object3D(const we::Model3D* model, std::vector<Object3D*>& m_pOrigin, unsigned int index);
+		Object3D(const we::Resource* model);
         virtual ~Object3D();
 
 		void Draw(we::Camera& camera);
@@ -25,9 +25,7 @@ namespace we {
 		glm::vec3 GetRotation();
 		glm::vec3 GetScale();
 
-		unsigned int m_Index = 0;
-		std::vector<Object3D*>* m_pOrigin;
-		void SetModel3D(const we::Model3D* model);
+		void SetModel3D(const we::Resource* model);
 	private:
 		const we::Model3D* m_pModel3D;
 		we::Transform m_Transform;

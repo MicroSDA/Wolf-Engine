@@ -3,11 +3,13 @@
 
 we::Shader::Shader() : we::Resource()
 {
-
+	std::cout << "Shader(" << this << ")\n";
 }
 
 we::Shader::Shader(const std::string& fileName)
 {
+	std::cout << "Shader(" << this << ")\n";
+
     m_Program = glCreateProgram();
     m_Shaders[0] = CreateShader(LoadShader("./Resources/Shaders/" + fileName + ".vert"), GL_VERTEX_SHADER);
     m_Shaders[1] = CreateShader(LoadShader("./Resources/Shaders/" + fileName + ".frag"), GL_FRAGMENT_SHADER);

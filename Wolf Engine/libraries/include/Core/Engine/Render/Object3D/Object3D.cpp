@@ -2,27 +2,24 @@
 #include <Core/Engine/Resources/ResourceManager.h>
 
 we::Object3D::Object3D():
-	m_pModel3D(nullptr),
-	m_pOrigin(nullptr)
+	m_pModel3D(nullptr)
 {
 }
 
-we::Object3D::Object3D(const we::Model3D* model, std::vector<Object3D*>& origin, unsigned int index)
+we::Object3D::Object3D(const we::Resource* model)
 {
-	m_pOrigin = &origin;
-	m_Index = index;
-	m_pModel3D = model;
-	std::cout << "Im creating at:" << this << "\n";
+
+	m_pModel3D = reinterpret_cast<const we::Model3D*>(model);
 }
 
 we::Object3D::~Object3D()
 {
 	if (m_pModel3D != nullptr)
 	{
-		we::ResourceManager::GetInstance().ResourceFree(m_pModel3D, we::MODEL3D, (this));
-		std::cout << "~Object3D(" << this << ")\n";
+		we::ResourceManager::GetInstance().UnHold(m_pModel3D, we::MODEL3D, (this));
 	}
 	  
+	//std::cout << "~Object3D("<<this<< ")\n";
 }
 
 void we::Object3D::Draw(we::Camera& camera)
@@ -67,8 +64,8 @@ void we::Object3D::Draw(we::Camera& camera)
 	return m_Transform.GetScale();
 }
 
-void we::Object3D::SetModel3D(const we::Model3D* model)
+void we::Object3D::SetModel3D(const we::Resource* model)
 {
-	m_pModel3D = model;
+	m_pModel3D = reinterpret_cast<const we::Model3D*>(model);;
 }
 

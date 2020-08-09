@@ -1,8 +1,8 @@
 #pragma once
-
+#include <Core/Engine/Resources/RHolder.h>
 namespace we {
 
-	class Drawable
+	class Drawable : public we::RHolder
 	{
 	public:
 		Drawable();

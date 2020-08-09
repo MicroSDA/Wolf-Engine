@@ -107,7 +107,7 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 			std::string diffuse;
 			diffuse.resize(diffusSize);
 			infile.read((char*)diffuse.c_str(), sizeof(char) * diffusSize);
-			std::cout << diffuse << "\n";
+			//std::cout << diffuse << "\n";
 		}
 
 		unsigned int specularSize = 0;
@@ -118,7 +118,7 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 			std::string specular;
 			specular.resize(specularSize);
 			infile.read((char*)specular.c_str(), sizeof(char) * specularSize);
-			std::cout << specular << "\n";
+			//std::cout << specular << "\n";
 		}
 
 		unsigned int heightMapSize = 0;
@@ -129,7 +129,7 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 			std::string heightMap;
 			heightMap.resize(heightMapSize);
 			infile.read((char*)heightMap.c_str(), sizeof(char) * heightMapSize);
-			std::cout << heightMap << "\n";
+			//std::cout << heightMap << "\n";
 		}
 
 		unsigned int shinnesSize = 0;
@@ -140,7 +140,7 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string filePath)
 			std::string shinnes;
 			shinnes.resize(shinnesSize);
 			infile.read((char*)shinnes.c_str(), sizeof(char) * shinnesSize);
-			std::cout << shinnes << "\n";
+			//std::cout << shinnes << "\n";
 		}
 
 		meshes[m] = we::Mesh(vertices, indices);

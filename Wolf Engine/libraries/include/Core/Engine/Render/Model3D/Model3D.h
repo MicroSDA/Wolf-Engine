@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/Engine/Render/Mesh/Mesh.h>
 #include <Core/Engine/Render/Shader/Shader.h>
+#include <Core/Engine/Resources/RHolder.h>
 
 
 #include <iostream>
@@ -9,7 +10,7 @@ class ResourceManager;
 
 namespace we {
 
-	class Model3D : public we::Resource
+	class Model3D : public we::Resource, public we::RHolder
 	{
 	public:
 		Model3D();

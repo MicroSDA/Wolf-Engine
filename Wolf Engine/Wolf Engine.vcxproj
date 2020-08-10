@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\Scripts;.\libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -103,7 +103,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\Scripts;.\libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -120,7 +120,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\Scripts;.\libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -137,7 +137,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\Scripts;.\libraries\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -162,6 +162,7 @@
     <ClCompile Include="libraries\include\Core\Engine\Render\Model3D\Model3D.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Object3D\Object3D.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Shader\Shader.cpp" />
+    <ClCompile Include="libraries\include\Core\Engine\Render\Texture\Texture.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Transform\Transform.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Vertex\Vertex.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Resources\Resource.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="libraries\include\Core\Engine\Resources\ResourceManager.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Resources\RHolder.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Scene\Scene.cpp" />
+    <ClCompile Include="libraries\include\Utilites\Image\Image.cpp" />
     <ClCompile Include="scripts\Scenes\MainScene\MainScene.cpp" />
     <ClCompile Include="WolfEngine.cpp" />
   </ItemGroup>
@@ -184,6 +186,7 @@
     <ClInclude Include="libraries\include\Core\Engine\Render\Model3D\Model3D.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Object3D\Object3D.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Shader\Shader.h" />
+    <ClInclude Include="libraries\include\Core\Engine\Render\Texture\Texture.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Transform\Transform.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Vertex\Vertex.h" />
     <ClInclude Include="libraries\include\Core\Engine\Resources\Resource.h" />
@@ -192,6 +195,7 @@
     <ClInclude Include="libraries\include\Core\Engine\Resources\RHolder.h" />
     <ClInclude Include="libraries\include\Core\Engine\Scene\Scene.h" />
     <ClInclude Include="libraries\include\Core\Engine\Util.h" />
+    <ClInclude Include="libraries\include\Utilites\Image\Image.h" />
     <ClInclude Include="scripts\Scenes\MainScene\MainScene.h" />
     <ClInclude Include="scripts\Scenes\SceneRegister.h" />
   </ItemGroup>

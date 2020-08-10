@@ -1,6 +1,7 @@
 #include "Mesh.h"
+#include <Core/Engine/Resources/ResourceManager.h>
 
-we::Mesh::Mesh()
+we::Mesh::Mesh() :we::RHolder()
 {
     VAO = NULL;
     VBO = NULL;
@@ -10,10 +11,11 @@ we::Mesh::Mesh()
 
 }
 
-we::Mesh::Mesh(const we::Mesh& other)
+we::Mesh::Mesh(const we::Mesh& other): we::RHolder()
 {
     m_Vertices = other.m_Vertices;
 	m_Indices = other.m_Indices;
+	m_pTextures = other.m_pTextures;
 
     VAO = NULL;
     VBO = NULL;
@@ -21,11 +23,12 @@ we::Mesh::Mesh(const we::Mesh& other)
 
 	m_Name = "undefined";
 
-	Init();
+	//Init();
 }
 
 we::Mesh::Mesh(const std::vector<we::Vertex>& vertices,
-	           const std::vector<unsigned int>& indices)
+	           const std::vector<unsigned int>& indices
+	           ): we::RHolder()
 {
     m_Vertices = vertices;
 	m_Indices = indices;
@@ -36,32 +39,40 @@ we::Mesh::Mesh(const std::vector<we::Vertex>& vertices,
 
 	m_Name = "undefined";
 
-	Init();
+	//Init();
 }
 
 we::Mesh::~Mesh()
 {
-	//std::cout << "~Mesh(" << this <<")\n";
-	//__declspec(deprecated) 
-	//printf("Deleting %p\n", (void *)VAO);
-
+	std::cout << "~Mesh(" << this <<")\n";
+	
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
 	m_Vertices.clear();
 	m_Indices.clear();
-}
 
-/*we::Mesh we::Mesh::operator=(we::Mesh& other)
-{
-	return other;
-}*/
+	for (auto& t : m_pTextures)
+	{
+		we::ResourceManager::GetInstance().UnHold(t.second, we::TEXTURE, this);
+		
+	}
+	m_pTextures.clear();
+}
 
 void we::Mesh::Draw() const
 {
-	glBindVertexArray(VAO);
+	
+	unsigned int id = 0;
+	for (auto& t : m_pTextures)
+	{
+		//Different ids for dif, spec, normal etc. cos they could not be inserted
+		t.second->Bind(id);
+		id++;
+	}
 
+	glBindVertexArray(VAO);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);

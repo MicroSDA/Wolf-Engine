@@ -3,7 +3,6 @@
 #include <Core/Engine/Render/Model3D/Model3D.h>
 #include <Core/Engine/Render/Shader/Shader.h>
 
-
 class ResourceManager;
 namespace we {
 

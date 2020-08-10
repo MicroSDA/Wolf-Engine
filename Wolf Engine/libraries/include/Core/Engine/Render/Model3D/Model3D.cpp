@@ -8,7 +8,7 @@ we::Model3D::Model3D():we::Resource(), we::RHolder()
 	std::cout << "Model3D(" << this << ")\n";
 }
 
-we::Model3D::Model3D(std::vector<Mesh> meshes): we::Resource(), we::RHolder()
+we::Model3D::Model3D(std::vector<Mesh*> meshes): we::Resource(), we::RHolder()
 {
 	m_pShader = reinterpret_cast<we::Shader*>(
 		we::ResourceManager::GetInstance().Hold("BasicModel", we::SHADER, this)
@@ -26,9 +26,14 @@ we::Model3D::~Model3D()
 	if (m_pShader != nullptr)
 	{	
 		we::ResourceManager::GetInstance().UnHold(m_pShader, we::SHADER, this);
+		//we::ResourceManager::GetInstance().UnHold(m_pTexture, we::TEXTURE, this);
 		std::cout << "~Model3D(" << this << ")\n";
 	}
-	
+	for (auto& m : m_Meshes)
+	{
+		delete m;
+	}
+
 	m_Meshes.clear();// if soter a pointer, only pointer will be delited, not referenced objects shoudl deleate all object by pointer at first
 }
 
@@ -36,9 +41,12 @@ void we::Model3D::Draw(we::Transform& transform, we::Camera& camera) const
 {
 	m_pShader->Bind();
 	m_pShader->Update(transform, camera);
-
 	for (unsigned int i = 0; i < m_Meshes.size(); i++) {
-		  m_Meshes[i].Draw();
+		/*for (unsigned int t = 0; t < m_Meshes[i].GetTexure()[t];t++)
+		{
+			glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "gBones"), (GLsizei)Transforms.size(), GL_FALSE, glm::value_ptr(Transforms[0]));
+		}*/
+		  m_Meshes[i]->Draw();
 	}
 }
 

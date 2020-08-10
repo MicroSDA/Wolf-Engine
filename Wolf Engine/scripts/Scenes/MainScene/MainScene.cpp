@@ -60,21 +60,24 @@ int MainScene::Process()
   
     if (m_Input->IsKeyboardBPressed(we::KEY_END))
     {
-        m_pObject3d.push_back(new we::Object3D());
-        m_pObject3d.back()->SetModel3D(
-            we::ResourceManager::GetInstance().Hold("model", we::MODEL3D, m_pObject3d.back())
-        );
+           m_pObject3d.push_back(new we::Object3D());
+            m_pObject3d.back()->SetModel3D(
+                we::ResourceManager::GetInstance().Hold("nanosuit", we::MODEL3D, m_pObject3d.back())
+            );
+
+            float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
+            float y = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
+            float z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
+
+            float rx = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 360);
+            float ry = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 360);
+            float rz = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 360);
+
+            m_pObject3d.back()->SetPossition(x, y, z);
+            m_pObject3d.back()->SetRotation(rx, ry, rz);
+    
+
       
-        float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
-        float y = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
-        float z = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
-
-        float rx = static_cast <float> (rand()) / static_cast <float> (RAND_MAX/360);
-        float ry = static_cast <float> (rand()) / static_cast <float> (RAND_MAX/360);
-        float rz = static_cast <float> (rand()) / static_cast <float> (RAND_MAX/360);
-
-        m_pObject3d.back()->SetPossition(x, y, z);
-        m_pObject3d.back()->SetRotation(rx, ry, rz);
     }
 
 
@@ -123,7 +126,7 @@ void MainScene::Prepare()
 
    
 
-    for (unsigned int i = 0; i < 100; i++)
+    for (unsigned int i = 0; i < 2; i++)
     {
         float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 300);
         float y = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 300);
@@ -135,9 +138,9 @@ void MainScene::Prepare()
 
         m_pObject3d.push_back(new we::Object3D());
         m_pObject3d.back()->SetModel3D(
-            we::ResourceManager::GetInstance().Hold("model", we::MODEL3D, m_pObject3d.back())
+            we::ResourceManager::GetInstance().Hold("nanosuit", we::MODEL3D, m_pObject3d.back())
             );
-        m_pObject3d.back()->SetPossition(x, y, z);
+        m_pObject3d.back()->SetPossition(0 +i, 0, 0);
         m_pObject3d.back()->SetRotation(rx, ry, rz);
 
     }

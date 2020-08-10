@@ -2,6 +2,7 @@
 #include <Core/Engine/Scene/Scene.h>
 #include <Core/Engine/Render/Object3D/Object3D.h>
 #include <map>
+#include <thread>
 
 class MainScene : public we::Scene
 {

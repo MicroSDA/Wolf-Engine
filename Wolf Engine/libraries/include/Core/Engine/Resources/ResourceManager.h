@@ -14,7 +14,8 @@ namespace we {
 	enum WE_RESOURCE
 	{
 		SHADER,
-		MODEL3D
+		MODEL3D,
+		TEXTURE
 	};
 
 	class ResourceManager
@@ -29,6 +30,7 @@ namespace we {
 		we::Resource* Hold(const std::string &fileName, const we::WE_RESOURCE& type, const we::RHolder* holder);
 		void UnHold(const we::Resource* resource, const we::WE_RESOURCE& type, const we::RHolder* holder);
 		void UnHold(const std::string& fileName, const we::WE_RESOURCE& type, const we::RHolder* holder);
+		we::Resource* Get(const std::string& fileName, const we::WE_RESOURCE& type);
 		void Truncate();
 	private:
 		ResourceManager();
@@ -37,6 +39,7 @@ namespace we {
 
 		std::map<std::string, std::map<we::Resource*, std::vector<const we::RHolder*>>> m_pShaders;
 		std::map<std::string, std::map<we::Resource*, std::vector<const we::RHolder*>>> m_pModels3d;
+		std::map<std::string, std::map<we::Resource*, std::vector<const we::RHolder*>>> m_pTextures;
 		we::ResourceLoader m_Loader;
 	};
 

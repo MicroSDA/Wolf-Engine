@@ -2,13 +2,8 @@
 #include <map>
 #include <Core/Engine/Resources/ResourceLoader.h>
 #include <Core/Engine/Resources/RHolder.h>
-#include <Core/Engine/Render/Shader/Shader.h>
-#include <Core/Engine/Render/Model3D/Model3D.h>
-#include <Core/Engine/Render/Object3D/Object3D.h>
-//#include <Core/Engine/Render/Drawable.h>
 
-//class Model3D;
-
+//TODO: Попробовать отказаться от Model3D и отдавать ссылку на массив мешей 
 namespace we {
 
 	enum WE_RESOURCE

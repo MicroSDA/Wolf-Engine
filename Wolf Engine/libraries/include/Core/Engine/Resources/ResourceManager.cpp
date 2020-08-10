@@ -46,7 +46,7 @@ we::Resource* we::ResourceManager::Hold(const std::string& fileName, const we::W
 		}
 		else {
 
-			Model3D* pM = m_Loader.LoadModel("./Resources/Models/" + fileName + ".bin");
+			we::Resource* pM = m_Loader.LoadModel("./Resources/Models/" + fileName + ".bin");
 			std::map<we::Resource*, std::vector<const we::RHolder*>> el;
 			el.insert(std::pair<we::Resource*, std::vector<const we::RHolder*>>(
 				pM, std::vector<const we::RHolder*>{ holder }));
@@ -74,7 +74,7 @@ we::Resource* we::ResourceManager::Hold(const std::string& fileName, const we::W
 		}
 		else {
 
-			we::Shader* pS = new we::Shader(fileName);
+			we::Resource* pS = new we::Shader(fileName);
 			std::map<we::Resource*, std::vector<const we::RHolder*>> el;
 			el.insert(std::pair<we::Resource*, std::vector<const we::RHolder*>>(
 				pS, std::vector<const we::RHolder*>{ holder }));
@@ -101,7 +101,7 @@ we::Resource* we::ResourceManager::Hold(const std::string& fileName, const we::W
 		}
 		else {
 
-			we::Texture* pS = m_Loader.LoadTexture("./Resources/Models/" + fileName);
+			we::Resource* pS = m_Loader.LoadTexture("./Resources/Models/" + fileName);
 			std::map<we::Resource*, std::vector<const we::RHolder*>> el;
 			el.insert(std::pair<we::Resource*, std::vector<const we::RHolder*>>(
 				pS, std::vector<const we::RHolder*>{ holder }));

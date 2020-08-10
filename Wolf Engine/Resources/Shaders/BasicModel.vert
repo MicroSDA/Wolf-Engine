@@ -1,16 +1,19 @@
-#version 400
+#version 440
 /*#include "file.glsl"*/
 
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 texCoords;
 layout (location = 2) in vec3 normal;
 
+layout (location = 0) out vec2 texCoordFrag;
+layout (location = 1) out vec3 normalFrag;
+
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
 
-out vec2 texCoordFrag;
-out vec3 normalFrag;
+//out vec2 texCoordFrag;
+//out vec3 normalFrag;
 
 void main()
 {

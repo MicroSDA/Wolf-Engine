@@ -14,11 +14,7 @@ layout (location = 4) uniform mat4 ViewM;
 layout (location = 5) uniform mat4 ProjectionM;
 
 layout (location = 6) uniform vec3 CameraPosition;
-/*uniform mat4 ViewM;
-uniform mat4 ProjectionM;*/
 
-//out vec2 texCoordFrag;
-//out vec3 normalFrag;
 
 void main()
 {

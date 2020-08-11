@@ -55,27 +55,18 @@ void we::Shader::Unbind()
 
 void we::Shader::Update(const we::Transform& transform, const we::Camera& camera)
 {
-	glm::mat4 camera_perpective = camera.GetPerpective();
-	glm::mat4 view = camera.GetView();
-	glm::mat4 transform_u = transform.GetModel();
 
-	/*GLuint transformUnifLoaction       = glGetUniformLocation(m_Program, "ModelM");
-	GLuint viewUnifLoaction            = glGetUniformLocation(m_Program, "ViewM");
-	GLuint projectionUnifLoaction      = glGetUniformLocation(m_Program, "ProjectionM");*/
-
-
-	/*std::cout << transformUnifLoaction <<"\n";*/
-
-	glUniformMatrix4fv(3, 1, GL_FALSE, &transform_u[0][0]);
-	glUniformMatrix4fv(4, 1, GL_FALSE, &view[0][0]);
-	glUniformMatrix4fv(5, 1, GL_FALSE, &camera_perpective[0][0]);
+	//Index position of uniform is relative to shader !
+	//MVP 
+	glUniformMatrix4fv(3, 1, GL_FALSE, &transform.GetModel()[0][0]);
+	glUniformMatrix4fv(4, 1, GL_FALSE, &camera.GetView()[0][0]);
+	glUniformMatrix4fv(5, 1, GL_FALSE, &camera.GetPerpective()[0][0]);
+	//Camera position
 	glUniform3fv(6, 1, &camera.GetPosition()[0]);
-	//glUniform3f(6,  camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
-
-	/*glUniformMatrix4fv(transformUnifLoaction, 1, GL_FALSE, &transform_u[0][0]);
-	glUniformMatrix4fv(viewUnifLoaction, 1, GL_FALSE, &view[0][0]);
-	glUniformMatrix4fv(projectionUnifLoaction, 1, GL_FALSE, &camera_perpective[0][0]);*/
-
+	
+	/*std::cout << glGetUniformLocation(m_Program, "GeneralL.colorAmbient") << "\n";
+	std::cout << glGetUniformLocation(m_Program, "GeneralL.colorDiffuse") << "\n";
+	std::cout << glGetUniformLocation(m_Program, "GeneralL.colorSpecular") << "\n";*/
 }
 
 GLuint we::Shader::CreateShader(const std::string& text, GLenum shaderType)

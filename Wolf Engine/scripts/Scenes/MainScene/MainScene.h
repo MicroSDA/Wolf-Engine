@@ -16,5 +16,5 @@ public:
 
 	we::Camera m_Camera;
 	std::vector<we::Object3D*> m_pObject3d;
-	
+	we::Light m_GeneralLight;
 };

@@ -21,29 +21,30 @@ vec4 ProcessGeneralLight(GeneralLight generalLight)
 {
     
     //TODO: material_reflection at first position
-    vec3  m_AmbientColor   = vec3(1, 1, 1)  * texture(DIFFUSE_TEXTURE,  TextureCoords).rgb;
-    vec3  m_DiffuesColor   = vec3(0.0f, 0.0f, 0.0f);
-    vec3  m_SpecularColor  = vec3(0.0f, 0.0f, 0.0f);
+    vec3  m_AmbientColor   = generalLight.colorAmbient  * texture(DIFFUSE_TEXTURE,  TextureCoords).rgb;
+    vec3  m_DiffuesColor   = vec3(0.0, 0.0, 0.0);
+    vec3  m_SpecularColor  = vec3(0.0, 0.0, 0.0);
 
-    float m_DiffuesShading = dot(Normal, vec3(0, 0.0, -1.0));
+    float m_DiffuesShading = dot(Normal, generalLight.direction);
 
-    if(m_DiffuesShading > 0.0f)
+    if(m_DiffuesShading > 0.0)
     {
-       m_DiffuesColor   = vec3(1, 1, 1) * m_DiffuesShading * texture(DIFFUSE_TEXTURE,  TextureCoords).rgb;
-       vec3  m_Reflect  = normalize(-reflect(vec3(0, 0.0, -1.0), Normal));
+       m_DiffuesColor   = generalLight.colorDiffuse * m_DiffuesShading * texture(DIFFUSE_TEXTURE,  TextureCoords).rgb;
+       vec3  m_Reflect  = normalize(-reflect(generalLight.direction, Normal));
        float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
-       if(m_SpecularShading > 0.0f)
+       if(m_SpecularShading > 0.0)
        {
-          m_SpecularShading = pow(m_SpecularShading, 100);// 0.5 specular_power
-          m_SpecularColor  = vec3(1, 1, 1) * 10 * m_SpecularShading * texture(DIFFUSE_TEXTURE, TextureCoords).rgb;// 0.5 specular intensivity
+          m_SpecularShading = pow(m_SpecularShading, 10);// specular_power
+          m_SpecularColor  = generalLight.colorSpecular * 2 * m_SpecularShading * texture(DIFFUSE_TEXTURE, TextureCoords).rgb;// specular intensivity
       }
     }
 
-    return vec4(vec3(m_DiffuesColor + m_SpecularColor), 1.0f);// Alpha is hardcoded now
+    return vec4(vec3(m_AmbientColor + m_DiffuesColor + m_SpecularColor), 1.0f);// Alpha is hardcoded now
 }
 
 void main()
 {
+
 	/*vec4 LightColor = vec4(0.2, 0.8, 0.9, 1.0);
 	float light = clamp(dot(vec3(0, 0.5, -0.5), Normal),0.0,1.0);
     vec4 Dif =  texture2D(DIFFUSE_TEXTURE, TextureCoords.xy);

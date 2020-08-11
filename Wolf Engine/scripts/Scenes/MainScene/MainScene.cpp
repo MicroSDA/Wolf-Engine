@@ -96,14 +96,20 @@ int MainScene::Process()
         return WE_FORCE_EXIT;
     }
 
+
+    // set light position
+    float lightX = glm::sin((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
+    float lightZ = glm::cos((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
+   
+    m_GeneralLight.SetDirection(lightX,0.0, lightZ);
    /*for (unsigned int i = 0; i < 5000000; i++)
     {
         int x = 10;
         int y = x / 2;
     }*/
 
-    //std::cout << m_Display->GetDeltaTime() << "\n";
     return WE_RUNNING;
+
 
 }
 
@@ -112,7 +118,7 @@ void MainScene::Render()
    
     for (auto object : m_pObject3d)
     {
-        object->Draw(m_Camera);
+        object->Draw(m_Camera, m_GeneralLight);
     }
    
 }

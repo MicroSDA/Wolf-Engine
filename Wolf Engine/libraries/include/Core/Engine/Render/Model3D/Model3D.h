@@ -2,6 +2,7 @@
 #include <Core/Engine/Render/Mesh/Mesh.h>
 #include <Core/Engine/Render/Shader/Shader.h>
 #include <Core/Engine/Resources/RHolder.h>
+#include <Core/Engine/Render/Light/Light.h>
 #include <iostream>
 class ResourceManager;
 
@@ -13,7 +14,7 @@ namespace we {
 		Model3D();
 		Model3D(std::vector<we::Mesh*> meshes);
 		~Model3D();
-		void Draw(we::Transform& transform, we::Camera& camera) const;
+		void Draw(we::Transform& transform, we::Camera& camera, we::Light& light) const;
 
 		void AddMesh(we::Mesh mesh);
 		we::Mesh& GetMesh();

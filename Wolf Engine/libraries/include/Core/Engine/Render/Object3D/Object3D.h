@@ -3,6 +3,7 @@
 #include <Core/Engine/Render/Model3D/Model3D.h>
 #include <Core/Engine/Render/Shader/Shader.h>
 
+
 class ResourceManager;
 namespace we {
 
@@ -13,7 +14,7 @@ namespace we {
 		Object3D(const we::Resource* model);
         virtual ~Object3D();
 
-		void Draw(we::Camera& camera);
+		void Draw(we::Camera& camera, we::Light& light);
 		void SetPossition(const float& x, const float& y, const float& z);
 		void SetPossition(const glm::vec3& possition);
 		void SetRotation(const float& x, const float& y, const float& z);
@@ -28,5 +29,6 @@ namespace we {
 	private:
 		const we::Model3D* m_pModel3D;
 		we::Transform m_Transform;
+	
 	};
 }

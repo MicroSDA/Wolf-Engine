@@ -1,7 +1,7 @@
 #include "ResourceLoader.h"
 #include <Utilites/Image/Image.h>
 #include <Core/Engine/Resources/ResourceManager.h>
-
+#include <thread>
 we::ResourceLoader::ResourceLoader()
 {
 }
@@ -128,16 +128,31 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 			std::string diffuse;
 			diffuse.resize(diffusSize);
 			infile.read((char*)diffuse.c_str(), sizeof(char) * diffusSize);
+			/*we::Texture* texure;
+			auto vglambda = [](we::Texture* texure, we::RHolder* holder) {
+				
+				texure = reinterpret_cast<Texture*>(we::ResourceManager::GetInstance().Hold("diffuse.png", we::TEXTURE, holder));
+			};
+			
+			std::thread thr(vglambda, texure, meshes.back());
+			thr.join();*/
 			texures.insert(
 				std::pair<std::string, we::Texture*>(
 					"DIFFUSE_TEXURE",
 					reinterpret_cast<we::Texture*>(
 						we::ResourceManager::GetInstance().Hold(
 							diffuse, we::TEXTURE, meshes.back()))));
-			//std::cout << diffuse << "\n";
+			
+		}
+		else {
+				texures.insert(
+					std::pair<std::string, we::Texture*>(
+						"DIFFUSE_TEXURE",
+						reinterpret_cast<we::Texture*>(
+							we::ResourceManager::GetInstance().Hold(
+								"undefined.png", we::TEXTURE, meshes.back()))));
 		}
 
-		
 		unsigned int specularSize = 0;
 		infile.read((char*)&specularSize, sizeof(unsigned int));
 		if (specularSize != 0)
@@ -152,6 +167,14 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 					reinterpret_cast<we::Texture*>(
 						we::ResourceManager::GetInstance().Hold(
 							specular, we::TEXTURE, meshes.back()))));
+		}
+		else {
+			texures.insert(
+				std::pair<std::string, we::Texture*>(
+					"SPECULAR_TEXURE",
+					reinterpret_cast<we::Texture*>(
+						we::ResourceManager::GetInstance().Hold(
+							"undefined.png", we::TEXTURE, meshes.back()))));
 		}
 
 		unsigned int heightMapSize = 0;
@@ -169,6 +192,14 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 						we::ResourceManager::GetInstance().Hold(
 							heightMap, we::TEXTURE, meshes.back()))));
 		}
+		else {
+			texures.insert(
+				std::pair<std::string, we::Texture*>(
+					"NORMAL_MAP",
+					reinterpret_cast<we::Texture*>(
+						we::ResourceManager::GetInstance().Hold(
+							"undefined.png", we::TEXTURE, meshes.back()))));
+		}
 
 		unsigned int shinnesSize = 0;
 		infile.read((char*)&shinnesSize, sizeof(unsigned int));
@@ -185,6 +216,16 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 						we::ResourceManager::GetInstance().Hold(
 							shinnes, we::TEXTURE, meshes.back()))));
 		}
+		else {
+			texures.insert(
+				std::pair<std::string, we::Texture*>(
+					"SHINES_TEXTURE",
+					reinterpret_cast<we::Texture*>(
+						we::ResourceManager::GetInstance().Hold(
+							"undefined.png", we::TEXTURE, meshes.back()))));
+		}
+
+
 
 		meshes.back()->SetVertices(vertices);
 		meshes.back()->SetIndices(indices);

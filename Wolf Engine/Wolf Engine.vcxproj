@@ -171,6 +171,7 @@
     <ClCompile Include="libraries\include\Core\Engine\Resources\RHolder.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Scene\Scene.cpp" />
     <ClCompile Include="libraries\include\Utilites\Image\Image.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="scripts\Scenes\MainScene\MainScene.cpp" />
     <ClCompile Include="WolfEngine.cpp" />
   </ItemGroup>
@@ -196,6 +197,7 @@
     <ClInclude Include="libraries\include\Core\Engine\Scene\Scene.h" />
     <ClInclude Include="libraries\include\Core\Engine\Util.h" />
     <ClInclude Include="libraries\include\Utilites\Image\Image.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="scripts\Scenes\MainScene\MainScene.h" />
     <ClInclude Include="scripts\Scenes\SceneRegister.h" />
   </ItemGroup>

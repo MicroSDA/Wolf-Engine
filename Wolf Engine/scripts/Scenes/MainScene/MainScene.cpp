@@ -62,7 +62,7 @@ int MainScene::Process()
     {
            m_pObject3d.push_back(new we::Object3D());
             m_pObject3d.back()->SetModel3D(
-                we::ResourceManager::GetInstance().Hold("cube", we::MODEL3D, m_pObject3d.back())
+                we::ResourceManager::GetInstance().Hold("model", we::MODEL3D, m_pObject3d.back())
             );
 
             float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 150);
@@ -126,7 +126,7 @@ void MainScene::Prepare()
 
    
 
-    for (unsigned int i = 0; i < 1000; i++)
+    for (unsigned int i = 0; i < 1; i++)
     {
         float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 300);
         float y = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 300);
@@ -138,11 +138,12 @@ void MainScene::Prepare()
 
         m_pObject3d.push_back(new we::Object3D());
         m_pObject3d.back()->SetModel3D(
-            we::ResourceManager::GetInstance().Hold("cube", we::MODEL3D, m_pObject3d.back())
+            we::ResourceManager::GetInstance().Hold("model", we::MODEL3D, m_pObject3d.back())
             );
-        m_pObject3d.back()->SetPossition(x ,y, z);
-        m_pObject3d.back()->SetRotation(rx, ry, rz);
-        m_pObject3d.back()->SetScale(rx/100, ry/100, rz/100);
+        m_pObject3d.back()->SetPossition(0 ,0, 0);
+        m_pObject3d.back()->SetRotation(-90, 0,0);
+        //m_pObject3d.back()->SetScale(10, 10,10);
+   
 
     }
    

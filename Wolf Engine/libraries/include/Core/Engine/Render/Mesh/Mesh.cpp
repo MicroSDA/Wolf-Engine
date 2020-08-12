@@ -72,6 +72,8 @@ void we::Mesh::Draw() const
 		id++;
 	}
 
+	m_Material.Process();
+
 	glBindVertexArray(VAO);
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);

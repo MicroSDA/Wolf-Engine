@@ -2,6 +2,8 @@
 #include <Core/Engine/Input/Input.h>
 #include <Core/Engine/Util.h>
 #include <Core/Engine/Resources/ResourceManager.h>
+#include <Core/Engine/Render/Light/GeneralLight.h>
+#include <Core/Engine/Render/Light/PointLight.h>
 #include <string>
 
 class Engine;

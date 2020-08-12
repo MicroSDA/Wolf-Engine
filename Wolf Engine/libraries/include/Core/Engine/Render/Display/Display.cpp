@@ -46,7 +46,6 @@ we::Display::Display()
 	}
 
 	InitOpengl();
-
 	SDL_PollEvent(&m_Event);
 	
 }
@@ -55,8 +54,11 @@ void we::Display::InitOpengl()
 {
 	SetRenderProps(GL_DEPTH_TEST, true);
 	SetRenderProps(GL_CULL_FACE, true);
+	SetRenderProps(GL_DEPTH_CLAMP, true);
 	glCullFace(GL_BACK);
-	//glFrontFace(GL_FRONT);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_COLOR, GL_ZERO);
+	//glBlendFunc(GL_ONE, GL_ZERO);
 }
 
 void we::Display::WindowControlUpdate()

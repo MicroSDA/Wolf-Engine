@@ -2,6 +2,7 @@
 #include <Core/Engine/Render/Vertex/Vertex.h>
 #include <Core/Engine/Render/Texture/Texture.h>
 #include <Core/Engine/Resources/RHolder.h>
+#include <Core/Engine/Render/Material/Material.h>
 #include <vector>
 #include <string>
 #include <iostream>
@@ -32,6 +33,7 @@ namespace we {
 		std::vector<unsigned int> m_Indices;
 		std::string m_Name;
 		std::map<std::string, we::Texture*> m_pTextures;
+		we::Material m_Material;
 	};
 }
 

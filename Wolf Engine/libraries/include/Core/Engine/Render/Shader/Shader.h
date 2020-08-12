@@ -20,6 +20,8 @@ namespace we {
 		void Bind();
 		static void Unbind();
 		void Update(const we::Transform& transform, const we::Camera& camera);
+		//inline GLuint& GetProgram() { return m_Program; }
+		unsigned int GetProgram() const { return m_Program; }
 	protected:
 
 	private:

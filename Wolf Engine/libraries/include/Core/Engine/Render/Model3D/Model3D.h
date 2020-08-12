@@ -2,7 +2,7 @@
 #include <Core/Engine/Render/Mesh/Mesh.h>
 #include <Core/Engine/Render/Shader/Shader.h>
 #include <Core/Engine/Resources/RHolder.h>
-#include <Core/Engine/Render/Light/Light.h>
+#include <Core/Engine/Render/Light/GeneralLight.h>
 #include <iostream>
 class ResourceManager;
 

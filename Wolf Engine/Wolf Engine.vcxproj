@@ -158,7 +158,10 @@
     <ClCompile Include="libraries\include\Core\Engine\Render\Camera\Camera.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Display\Display.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Drawable.cpp" />
+    <ClCompile Include="libraries\include\Core\Engine\Render\Light\GeneralLight.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Light\Light.cpp" />
+    <ClCompile Include="libraries\include\Core\Engine\Render\Light\PointLight.cpp" />
+    <ClCompile Include="libraries\include\Core\Engine\Render\Material\Material.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Mesh\Mesh.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Model3D\Model3D.cpp" />
     <ClCompile Include="libraries\include\Core\Engine\Render\Object3D\Object3D.cpp" />
@@ -183,7 +186,10 @@
     <ClInclude Include="libraries\include\Core\Engine\Render\Camera\Camera.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Display\Display.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Drawable.h" />
+    <ClInclude Include="libraries\include\Core\Engine\Render\Light\GeneralLight.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Light\Light.h" />
+    <ClInclude Include="libraries\include\Core\Engine\Render\Light\PointLight.h" />
+    <ClInclude Include="libraries\include\Core\Engine\Render\Material\Material.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Mesh\Mesh.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Model3D\Model3D.h" />
     <ClInclude Include="libraries\include\Core\Engine\Render\Object3D\Object3D.h" />

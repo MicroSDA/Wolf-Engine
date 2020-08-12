@@ -3,7 +3,7 @@
 
 MainScene::MainScene()
 	:Scene(),
-    m_Camera(glm::vec3(0.0, 0.0, -10.0), 70.0f, float(1000) / float(800), 0.01f, 3000.0f)
+    m_Camera(glm::vec3(0.0, 0.0, 0.0), 70.0f, float(1000) / float(800), 0.01f, 3000.0f)
 {
     Prepare();
 }
@@ -98,10 +98,12 @@ int MainScene::Process()
 
 
     // set light position
-    float lightX = glm::sin((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
-    float lightZ = glm::cos((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
+    float lightX = 30 * glm::sin((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
+    float lightZ = 180 * glm::cos((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
    
-    m_GeneralLight.SetDirection(lightX,0.0, lightZ);
+    m_pObject3d[0]->SetRotation(0, lightZ, 0);
+    m_GeneralLight.SetDirection(0.0, 0.0,-1.0);
+    //m_PointLight.SetPosition(lightX, 0.0, lightZ);
    /*for (unsigned int i = 0; i < 5000000; i++)
     {
         int x = 10;
@@ -144,11 +146,11 @@ void MainScene::Prepare()
 
         m_pObject3d.push_back(new we::Object3D());
         m_pObject3d.back()->SetModel3D(
-            we::ResourceManager::GetInstance().Hold("model", we::MODEL3D, m_pObject3d.back())
+            we::ResourceManager::GetInstance().Hold("nanosuit", we::MODEL3D, m_pObject3d.back())
             );
-        m_pObject3d.back()->SetPossition(0 ,0, 0);
-        m_pObject3d.back()->SetRotation(-90, 0,0);
-        //m_pObject3d.back()->SetScale(10, 10,10);
+        m_pObject3d.back()->SetPossition(0 ,0, 5);
+        //m_pObject3d.back()->SetRotation(-180, 0,0);
+        //m_pObject3d.back()->SetScale(10, 10, 10);
    
 
     }

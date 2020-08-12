@@ -14,7 +14,7 @@ namespace we {
 		Object3D(const we::Resource* model);
         virtual ~Object3D();
 
-		void Draw(we::Camera& camera, we::Light& light);
+		void Draw(we::Camera& camera, std::vector<we::Light*>& lightSources);
 		void SetPossition(const float& x, const float& y, const float& z);
 		void SetPossition(const glm::vec3& possition);
 		void SetRotation(const float& x, const float& y, const float& z);

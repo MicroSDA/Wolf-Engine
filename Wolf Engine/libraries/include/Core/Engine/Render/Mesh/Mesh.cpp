@@ -61,7 +61,7 @@ we::Mesh::~Mesh()
 	m_pTextures.clear();
 }
 
-void we::Mesh::Draw() const
+void we::Mesh::Draw(we::Shader& shader) const
 {
 	
 	unsigned int id = 0;
@@ -72,7 +72,7 @@ void we::Mesh::Draw() const
 		id++;
 	}
 
-	m_Material.Process();
+	m_Material.Process(shader);
 
 	glBindVertexArray(VAO);
 	glEnableVertexAttribArray(0);

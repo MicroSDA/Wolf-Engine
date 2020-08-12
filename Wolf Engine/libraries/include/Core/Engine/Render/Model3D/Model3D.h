@@ -14,7 +14,7 @@ namespace we {
 		Model3D();
 		Model3D(std::vector<we::Mesh*> meshes);
 		~Model3D();
-		void Draw(we::Transform& transform, we::Camera& camera, we::Light& light) const;
+		void Draw(we::Transform& transform, we::Camera& camera, std::vector<we::Light*>& lightSources) const;
 
 		void AddMesh(we::Mesh mesh);
 		we::Mesh& GetMesh();

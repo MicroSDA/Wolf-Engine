@@ -26,11 +26,12 @@ namespace we {
 		//Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
 		virtual void Prepare() = 0;
 	protected:
-		we::Display* m_Display;
-		we::Input* m_Input;
 		//we::ResourceManager m_ResManager;
 		void SetScene(const we::SCENES& scene);
 		void SetScene(const std::string& scene);
+		we::Display* m_Display;
+		we::Input* m_Input;
+		std::vector<we::Light*> m_LightSources;
 	private:
 
 	};

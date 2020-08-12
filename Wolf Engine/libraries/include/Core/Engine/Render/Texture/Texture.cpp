@@ -21,7 +21,7 @@ we::Texture::Texture(const we::ImageData& imageData):we::Resource()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageData.m_Width, imageData.m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.m_pImageData);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, imageData.m_Width, imageData.m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.m_pImageData);
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 

@@ -64,6 +64,7 @@ void we::Shader::Update(const we::Transform& transform, const we::Camera& camera
 	//Camera position
 	glUniform3fv(6, 1, &camera.GetPosition()[0]);
 	
+	
 	//std::cout << glGetUniformLocation(m_Program, "pointL[0].colorAmbient") << "\n";
 	//std::cout << glGetUniformLocation(m_Program, "GeneralL.colorDiffuse") << "\n";
 	//std::cout << glGetUniformLocation(m_Program, "GeneralL.colorSpecular") << "\n";

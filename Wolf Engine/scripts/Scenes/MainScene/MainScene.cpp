@@ -101,8 +101,8 @@ int MainScene::Process()
     float lightX = 30 * glm::sin((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
     float lightZ = 180 * glm::cos((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
    
-    m_pObject3d[0]->SetRotation(0, lightZ, 0);
-    m_GeneralLight.SetDirection(0.0, 0.0,-1.0);
+     m_pObject3d[0]->SetRotation(0, lightZ, 0);
+    //m_GeneralLight.SetDirection(0.0, 0.0,-1.0);
     //m_PointLight.SetPosition(lightX, 0.0, lightZ);
    /*for (unsigned int i = 0; i < 5000000; i++)
     {
@@ -120,8 +120,10 @@ void MainScene::Render()
    
     for (auto object : m_pObject3d)
     {
-        object->Draw(m_Camera, m_GeneralLight);
+        object->Draw(m_Camera, m_LightSources);
     }
+
+    we::Shader::Unbind();
    
 }
 
@@ -130,8 +132,17 @@ void MainScene::Prepare()
     //TODO: Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
-    const static unsigned intnumObjects = 1000;
+    //we::GeneralLight generalLight;
+    //we::PointLight pointLight;
+    //m_LightSources.push_back(new we::GeneralLight());
+    m_LightSources.push_back(new we::PointLight(0));
+    m_LightSources.push_back(new we::PointLight(1));
 
+    m_LightSources[0]->SetSpecularColor(1, 0, 0);
+    m_LightSources[1]->SetSpecularColor(0, 0, 1);
+
+    reinterpret_cast<we::PointLight*>(m_LightSources[0])->SetPosition(20, 0, 0);
+    reinterpret_cast<we::PointLight*>(m_LightSources[1])->SetPosition(-20, 0, 0);
    
 
     for (unsigned int i = 0; i < 1; i++)

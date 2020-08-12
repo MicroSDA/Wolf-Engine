@@ -38,16 +38,16 @@ struct Material {
 const int MAX_POINT_LIGHTS = 100;
 const int MAX_SPOT_LIGHTS  = 100;
 
-
 uniform Material       material;
 
 uniform GeneralLight   generalL;
 uniform PointLight     pointL[MAX_POINT_LIGHTS];   
 
 
+uniform int PONT_LIGHTS_COUNT;
+
 vec4 ProcessGeneralLight(GeneralLight generalLight, Material material)
 {
-     
     vec4  m_AmbientColor   = vec4(material.colorAmbient * generalLight.colorAmbient, 1.0)  * texture(DIFFUSE_TEXTURE,  TextureCoords).rgba;
     vec4  m_DiffuesColor   = vec4(0.0, 0.0, 0.0, 1.0);
     vec4  m_SpecularColor  = vec4(0.0, 0.0, 0.0, 1.0);
@@ -62,7 +62,8 @@ vec4 ProcessGeneralLight(GeneralLight generalLight, Material material)
        if(m_SpecularShading > 0.0)
        {
           m_SpecularShading = pow(m_SpecularShading, material.specularPower);
-          m_SpecularColor  = vec4(material.colorSpecular * generalLight.colorSpecular, 1.0) * generalLight.specularIntensivity * m_SpecularShading * texture(SH_MAP, TextureCoords).rgba;// specular intensivity
+          m_SpecularColor  = vec4(material.colorSpecular * generalLight.colorSpecular, 1.0) * generalLight.specularIntensivity * m_SpecularShading * 
+          (texture(SH_MAP, TextureCoords).rgba * texture(SH_MAP, TextureCoords).a); // specular based on alpha ?
       }
     }
 
@@ -89,21 +90,23 @@ vec4 ProcessPointLight(PointLight pointLight, Material material)
        {
           //float spec = 1.0 * pow(max(dot(ToCameraDirection, m_Reflect), 0.0), material.specularPower);
           m_SpecularShading = pow(m_SpecularShading, material.specularPower);
-          m_SpecularColor  = vec4(material.colorSpecular * pointLight.colorSpecular, 1.0) * pointLight.specularIntensivity * m_SpecularShading * texture(SH_MAP, TextureCoords).rgba;// specular intensivity
+          m_SpecularColor  = vec4(material.colorSpecular * pointLight.colorSpecular, 1.0) * pointLight.specularIntensivity * m_SpecularShading *
+          (texture(SH_MAP, TextureCoords).rgba * texture(SH_MAP, TextureCoords).a); // specular based on alpha ?
       }
     }
 
-    float m_Attenuation =  pointLight.constant + pointLight.linear * m_Distance + pointLight.qaudratic * (m_Distance * m_Distance);                                 
-    //float m_Attenuation =  1.0 / (pointLight.constant + pointLight.linear * m_Distance +  pointLight.qaudratic * (m_Distance * m_Distance));                                 
-    m_AmbientColor  *=m_Attenuation;
+    //float m_Attenuation =  pointLight.constant + pointLight.linear * m_Distance + pointLight.qaudratic * (m_Distance * m_Distance);                                 
+    float m_Attenuation =  1.0 / (pointLight.constant + pointLight.linear * m_Distance +  pointLight.qaudratic * (m_Distance * m_Distance));                                 
+    /*m_AmbientColor  *=m_Attenuation;
     m_DiffuesColor  *=m_Attenuation;
-    m_SpecularColor *=m_Attenuation; 
+    m_SpecularColor *=m_Attenuation;*/ 
 
    
-    return vec4(m_AmbientColor + m_DiffuesColor + m_SpecularColor) ;// / m_Attenuation;
+    return vec4(m_AmbientColor + m_DiffuesColor + m_SpecularColor) / m_Attenuation;
 }
 void main()
 {
+
 
 	/*vec4 LightColor = vec4(0.2, 0.8, 0.9, 1.0);
 	float light = clamp(dot(vec3(0, 0.5, -0.5), Normal),0.0,1.0);
@@ -114,8 +117,14 @@ void main()
     //gl_FragColor = texture2D(SPECULAR_TEXTURE, texCoordFrag.xy) * light;
     //gl_FragColor = LightColor * light;
 
+    vec4 m_TotalColor = ProcessGeneralLight(generalL, material);
+
+    for(int i = 0; i < PONT_LIGHTS_COUNT; i++)
+    {
+        m_TotalColor += ProcessPointLight(pointL[i], material);
+    }
     //gl_FragColor = ProcessGeneralLight(generalL, material);
-    vec4 m_GeneralLight = ProcessGeneralLight(generalL, material);
+    //vec4 m_GeneralLight = ProcessGeneralLight(generalL, material);
     //gl_FragColor = ProcessPointLight(pointL[0], material);
-    gl_FragColor = m_GeneralLight;
+    gl_FragColor = m_TotalColor;
 }

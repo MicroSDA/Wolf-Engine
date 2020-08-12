@@ -25,7 +25,7 @@ namespace we {
 		inline float     GetTransparency()  { return m_Transparency; }
 
 		//void Process(const we::Shader& shader) const;
-		void Process() const;
+		void Process(we::Shader& shader) const;
 	private:
 		glm::vec3 m_AmbientColor;
 		glm::vec3 m_DiffuseColor;

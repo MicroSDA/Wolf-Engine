@@ -25,7 +25,7 @@ namespace we {
 		inline std::map<std::string, we::Texture*>* GetTextures() { return &m_pTextures; }
 		void Init();
 		//Mesh operator=(we::Mesh&) {r}
-		void Draw() const;
+		void Draw(we::Shader& shader) const;
 	private:
 		
 		GLuint VAO, VBO, EBO;

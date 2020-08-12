@@ -22,9 +22,9 @@ we::Object3D::~Object3D()
 	//std::cout << "~Object3D("<<this<< ")\n";
 }
 
-void we::Object3D::Draw(we::Camera& camera, we::Light& light)
+void we::Object3D::Draw(we::Camera& camera, std::vector<we::Light*>& lightSources)
 {
-	m_pModel3D->Draw(m_Transform, camera, light);
+	m_pModel3D->Draw(m_Transform, camera, lightSources);
 }
 
  void we::Object3D::SetPossition(const float& x, const float& y, const float& z)

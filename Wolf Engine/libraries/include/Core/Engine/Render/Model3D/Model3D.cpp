@@ -36,18 +36,23 @@ we::Model3D::~Model3D()
 	m_Meshes.clear();// if soter a pointer, only pointer will be delited, not referenced objects shoudl deleate all object by pointer at first
 }
 
-void we::Model3D::Draw(we::Transform& transform, we::Camera& camera, we::Light& generalLight) const
+void we::Model3D::Draw(we::Transform& transform, we::Camera& camera, std::vector<we::Light*>& lightSources) const
 {
 	m_pShader->Bind();
 	m_pShader->Update(transform, camera);
-	generalLight.Process(*m_pShader);
+
+	for (auto& l : lightSources)
+	{
+		l->Process(*m_pShader);
+	}
+	//generalLight.Process(*m_pShader);
 
 	for (unsigned int i = 0; i < m_Meshes.size(); i++) {
 		/*for (unsigned int t = 0; t < m_Meshes[i].GetTexure()[t];t++)
 		{
 			glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "gBones"), (GLsizei)Transforms.size(), GL_FALSE, glm::value_ptr(Transforms[0]));
 		}*/
-		  m_Meshes[i]->Draw();
+		  m_Meshes[i]->Draw(*m_pShader);
 	}
 }
 

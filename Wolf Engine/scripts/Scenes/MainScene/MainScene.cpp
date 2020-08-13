@@ -135,14 +135,16 @@ void MainScene::Prepare()
     //we::GeneralLight generalLight;
     //we::PointLight pointLight;
     //m_LightSources.push_back(new we::GeneralLight());
+    //m_LightSources.push_back(new we::SpotLight(0));
     m_LightSources.push_back(new we::PointLight(0));
-    m_LightSources.push_back(new we::PointLight(1));
+    //m_LightSources.push_back(new we::PointLight(1));
 
-    m_LightSources[0]->SetSpecularColor(1, 0, 0);
-    m_LightSources[1]->SetSpecularColor(0, 0, 1);
+    //m_LightSources[0]->SetSpecularColor(0, 0, 0);
+    //m_LightSources[0]->SetDiffuseColor(0, 0, 0);
+    //m_LightSources[1]->SetSpecularColor(0, 0, 1);
 
-    reinterpret_cast<we::PointLight*>(m_LightSources[0])->SetPosition(20, 0, 0);
-    reinterpret_cast<we::PointLight*>(m_LightSources[1])->SetPosition(-20, 0, 0);
+    //reinterpret_cast<we::PointLight*>(m_LightSources[0])->SetPosition(0, 0, -10);
+    //reinterpret_cast<we::PointLight*>(m_LightSources[1])->SetPosition(-20, 0, 0);
    
 
     for (unsigned int i = 0; i < 1; i++)
@@ -159,7 +161,7 @@ void MainScene::Prepare()
         m_pObject3d.back()->SetModel3D(
             we::ResourceManager::GetInstance().Hold("nanosuit", we::MODEL3D, m_pObject3d.back())
             );
-        m_pObject3d.back()->SetPossition(0 ,0, 5);
+        m_pObject3d.back()->SetPossition(0, -10, 5);
         //m_pObject3d.back()->SetRotation(-180, 0,0);
         //m_pObject3d.back()->SetScale(10, 10, 10);
    

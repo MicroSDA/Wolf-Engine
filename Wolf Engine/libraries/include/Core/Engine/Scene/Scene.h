@@ -4,6 +4,7 @@
 #include <Core/Engine/Resources/ResourceManager.h>
 #include <Core/Engine/Render/Light/GeneralLight.h>
 #include <Core/Engine/Render/Light/PointLight.h>
+#include <Core/Engine/Render/Light/SpotLight.h>
 #include <string>
 
 class Engine;

@@ -1,7 +1,7 @@
 #include "GeneralLight.h"
 
 we::GeneralLight::GeneralLight() : we::Light(),
-	m_Direction(0.0f, 0.0f, -1.0f)
+	m_Direction(0.0f, 0.0f, 1.0f)
 {
 }
 

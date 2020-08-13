@@ -3,8 +3,8 @@
 we::PointLight::PointLight(int id):we::Light(),
     m_Position(0.0f, 0.0f, -100.0f),
 	m_Constant(1.0f),
-	m_Linear(0.3),
-	m_Qaudratic(0.0001),
+	m_Linear(0.00003),
+	m_Qaudratic(0.000001),
 	m_Id(id)
 {
 }
@@ -17,7 +17,7 @@ void we::PointLight::Process(const we::Shader& shader)
 {
 
 	
-    glUniform1i(glGetUniformLocation(shader.GetProgram(), "PONT_LIGHTS_COUNT"),  m_Id + 1);
+    glUniform1i(glGetUniformLocation(shader.GetProgram(), "POINT_LIGHTS_COUNT"),  m_Id + 1);
 	char index[64];
 	memset(index, 0, sizeof(index));
 

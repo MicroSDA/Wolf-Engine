@@ -1,14 +1,9 @@
 #include "SpotLight.h"
 
-we::SpotLight::SpotLight(int id):we::Light(),
-    m_Dirrection(0.0, 0.0f, 1.0f),
-    m_Position(0.0f, 0.0f, 100.0f),
-    m_Constant(0.03f),
-	m_Linear(0.00003),
-	m_Qaudratic(0.00001),
-	m_MinAngle(glm::cos(glm::radians(0.5f))),
-    m_MaxAngle(glm::cos(glm::radians(1.0f))),
-    m_Id(id)
+we::SpotLight::SpotLight(int id): we::PointLight(id),
+    m_Direction(0.0, 0.0f, 1.0f),
+	m_MinAngle(glm::cos(glm::radians(5.0f))),
+    m_MaxAngle(glm::cos(glm::radians(7.0f)))
 {
 }
 
@@ -17,13 +12,12 @@ we::SpotLight::~SpotLight()
 }
 void we::SpotLight::Process(const we::Shader& shader)
 {
-
 	glUniform1i(glGetUniformLocation(shader.GetProgram(), "SPOT_LIGHTS_COUNT"), m_Id + 1);
 	char index[64];
 	memset(index, 0, sizeof(index));
 
 	_snprintf_s(index, sizeof(index), "spotL[%i].direction", m_Id);
-	glUniform3fv(glGetUniformLocation(shader.GetProgram(), index), 1, &m_Dirrection[0]);
+	glUniform3fv(glGetUniformLocation(shader.GetProgram(), index), 1, &m_Direction[0]);
 	_snprintf_s(index, sizeof(index), "spotL[%i].position", m_Id);
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), index), 1, &m_Position[0]);
 	_snprintf_s(index, sizeof(index), "spotL[%i].colorAmbient", m_Id);

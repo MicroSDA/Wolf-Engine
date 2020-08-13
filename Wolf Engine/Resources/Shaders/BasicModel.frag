@@ -110,27 +110,25 @@ vec4 ProcessPointLight(PointLight pointLight, Material material)
       }
     }
 
-    //float m_Attenuation =  pointLight.constant + pointLight.linear * m_Distance + pointLight.qaudratic * (m_Distance * m_Distance);                                 
+                           
     float m_Attenuation =  1.0 / (pointLight.constant + pointLight.linear * m_Distance +  pointLight.qaudratic * (m_Distance * m_Distance));                                 
     m_AmbientColor  *=m_Attenuation;
     m_DiffuesColor  *=m_Attenuation;
     m_SpecularColor *=m_Attenuation; 
 
    
-    return vec4(m_AmbientColor + m_DiffuesColor + m_SpecularColor); /// m_Attenuation;
+    return vec4(m_AmbientColor + m_DiffuesColor + m_SpecularColor);
 }
 vec4 ProcessSpotLight(SpotLight spotLight, Material material)                                         
 {                                          
     
-    vec3  m_LightDirection = normalize(Position - spotLight.position);                             
+    vec3  m_LightDirection = normalize(spotLight.position - Position);                             
     float m_SpotFactor = dot(m_LightDirection,  normalize(-spotLight.direction)); //spotLight.direction                                  
                                                                                             
-    if (m_SpotFactor > spotLight.minAngle) { 
-
+    if (m_SpotFactor > spotLight.minAngle)
+    { 
         float m_Epsilon   = spotLight.minAngle - spotLight.maxAngle;
-        m_SpotFactor = smoothstep(0.0, 1.0, (m_SpotFactor - spotLight.minAngle)/(spotLight.minAngle - spotLight.maxAngle));
-
-
+        m_SpotFactor = smoothstep(0.0, 1.0, (m_SpotFactor - spotLight.minAngle) / m_Epsilon);
         float m_Distance  = length(m_LightDirection); 
         vec4  m_AmbientColor   = vec4(material.colorAmbient * spotLight.colorAmbient, 1.0)  * texture(DIFFUSE_TEXTURE,  TextureCoords).rgba;
         vec4  m_DiffuesColor   = vec4(0.0, 0.0, 0.0, 1.0);
@@ -152,19 +150,21 @@ vec4 ProcessSpotLight(SpotLight spotLight, Material material)
           }
         }
 
-        //float m_Attenuation =  spotLight.constant + spotLight.linear * m_Distance + spotLight.qaudratic * (m_Distance * m_Distance);                                 
-        float m_Attenuation =  1.0 / (spotLight.constant + spotLight.linear * m_Distance +  spotLight.qaudratic * (m_Distance * m_Distance));  
-        
-        m_SpotFactor    *=m_Attenuation;
-        m_AmbientColor  *=m_SpotFactor;
-        m_DiffuesColor  *=m_SpotFactor;
-        m_SpecularColor *=m_SpotFactor; 
+         float m_Attenuation =  1.0 / (spotLight.constant + spotLight.linear * m_Distance +  spotLight.qaudratic * (m_Distance * m_Distance));
+         m_DiffuesColor  *=m_SpotFactor;
+         m_SpecularColor *=m_SpotFactor;
 
-        return vec4(m_AmbientColor + m_DiffuesColor + m_SpecularColor);// / m_Attenuation; 
-    }                                                                                       
-    else {                                                                                  
-        return vec4(0,0,0,0);                                                               
-    }                                                                                       
+         m_AmbientColor  *=m_Attenuation;
+         m_DiffuesColor  *=m_Attenuation;
+         m_SpecularColor *=m_Attenuation;
+
+        return vec4(m_AmbientColor + m_DiffuesColor + m_SpecularColor); 
+
+    }else{
+
+        return vec4(0,0,0,0);  
+     
+    }
 }  
 void main()
 {

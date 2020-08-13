@@ -1,10 +1,10 @@
 #include "PointLight.h"
 #include <string>
 we::PointLight::PointLight(int id):we::Light(),
-    m_Position(0.0f, 0.0f, -100.0f),
-	m_Constant(1.0f),
-	m_Linear(0.00003),
-	m_Qaudratic(0.000001),
+    m_Position(0.0f, 0.0f, 0.0f),
+	m_Constant(0.1f),
+	m_Linear(0.01),
+	m_Qaudratic(0.001),
 	m_Id(id)
 {
 }

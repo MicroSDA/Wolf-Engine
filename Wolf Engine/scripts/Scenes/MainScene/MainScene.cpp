@@ -19,6 +19,13 @@ MainScene::~MainScene()
         delete object;
     }
     m_pObject3d.clear();
+
+    for (auto l : m_LightSources)
+    {
+        delete l;
+    }
+    m_LightSources.clear();
+
 }
 
 int MainScene::Process()
@@ -97,19 +104,7 @@ int MainScene::Process()
     }
 
 
-    // set light position
-    float lightX = 30 * glm::sin((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
-    float lightZ = 180 * glm::cos((float)(SDL_GetPerformanceCounter()) / 10000000.0f);
-   
-     m_pObject3d[0]->SetRotation(0, lightZ, 0);
-    //m_GeneralLight.SetDirection(0.0, 0.0,-1.0);
-    //m_PointLight.SetPosition(lightX, 0.0, lightZ);
-   /*for (unsigned int i = 0; i < 5000000; i++)
-    {
-        int x = 10;
-        int y = x / 2;
-    }*/
-
+  
     return WE_RUNNING;
 
 
@@ -132,21 +127,25 @@ void MainScene::Prepare()
     //TODO: Loading shaders, some basic textures, objects and other things that necessary for the first run and rendering
     m_Display->SetClearColor(0.5444f, 0.62f, 0.69f, 1.0f);
 
-    //we::GeneralLight generalLight;
-    //we::PointLight pointLight;
-    //m_LightSources.push_back(new we::GeneralLight());
-    //m_LightSources.push_back(new we::SpotLight(0));
-    m_LightSources.push_back(new we::PointLight(0));
-    //m_LightSources.push_back(new we::PointLight(1));
+    we::GeneralLight* generalLight = new we::GeneralLight();
+    we::PointLight*   pointlLight  = new we::PointLight(0);
+    we::SpotLight*    spotLight    = new we::SpotLight(0);
 
-    //m_LightSources[0]->SetSpecularColor(0, 0, 0);
-    //m_LightSources[0]->SetDiffuseColor(0, 0, 0);
-    //m_LightSources[1]->SetSpecularColor(0, 0, 1);
+    pointlLight->SetPosition(0, 0, -10);
+    pointlLight->SetConstant(0.1f);
+    pointlLight->SetConstant(0.1f);
+    pointlLight->SetLinear(0.01);
+    pointlLight->SetQaudratic(0.001);
 
+    spotLight->SetPosition(0, 0, -10);
+    spotLight->SetConstant(0.1f);
+    spotLight->SetLinear(0.01);
+    spotLight->SetQaudratic(0.001);
     //reinterpret_cast<we::PointLight*>(m_LightSources[0])->SetPosition(0, 0, -10);
-    //reinterpret_cast<we::PointLight*>(m_LightSources[1])->SetPosition(-20, 0, 0);
+    //m_LightSources.push_back(generalLight);
+    m_LightSources.push_back(pointlLight);
+    m_LightSources.push_back(spotLight);
    
-
     for (unsigned int i = 0; i < 1; i++)
     {
         float x = static_cast <float> (rand()) / static_cast <float> (RAND_MAX / 300);
@@ -162,7 +161,7 @@ void MainScene::Prepare()
             we::ResourceManager::GetInstance().Hold("nanosuit", we::MODEL3D, m_pObject3d.back())
             );
         m_pObject3d.back()->SetPossition(0, -10, 5);
-        //m_pObject3d.back()->SetRotation(-180, 0,0);
+        m_pObject3d.back()->SetRotation(0, 180,0);
         //m_pObject3d.back()->SetScale(10, 10, 10);
    
 

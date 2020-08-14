@@ -29,8 +29,8 @@ void we::PointLight::Process(const we::Shader& shader)
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), index), 1,       &m_DiffuseColor[0]);
 	_snprintf_s(index, sizeof(index), "pointL[%i].colorSpecular", m_Id);
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), index), 1,       &m_SpecularColor[0]);
-	_snprintf_s(index, sizeof(index), "pointL[%i].specularIntensivity", m_Id);
-	glUniform1f(glGetUniformLocation(shader.GetProgram(), index),            m_SpecularIntens);
+	_snprintf_s(index, sizeof(index), "pointL[%i].shininesStrength", m_Id);
+	glUniform1f(glGetUniformLocation(shader.GetProgram(), index),           m_ShininesStrength);
 	_snprintf_s(index, sizeof(index), "pointL[%i].constant", m_Id);
 	glUniform1f(glGetUniformLocation(shader.GetProgram(), index),            m_Constant);
 	_snprintf_s(index, sizeof(index), "pointL[%i].linear", m_Id);
@@ -38,13 +38,4 @@ void we::PointLight::Process(const we::Shader& shader)
 	_snprintf_s(index, sizeof(index), "pointL[%i].qaudratic", m_Id);
 	glUniform1f(glGetUniformLocation(shader.GetProgram(), index),            m_Qaudratic);
 
-
-	/*glUniform3fv(glGetUniformLocation(shader.GetProgram(), "pointL[0].position"), 1, &m_Position[0]);
-	glUniform3fv(glGetUniformLocation(shader.GetProgram(), "pointL[0].colorAmbient"), 1, &m_AmbientColor[0]);
-	glUniform3fv(glGetUniformLocation(shader.GetProgram(), "pointL[0].colorDiffuse"), 1, &m_DiffuseColor[0]);
-	glUniform3fv(glGetUniformLocation(shader.GetProgram(), "pointL[0].colorSpecular"), 1, &m_SpecularColor[0]);
-	glUniform1f(glGetUniformLocation(shader.GetProgram(), "pointL[0].specularIntensivity"), m_SpecularIntens);
-	glUniform1f(glGetUniformLocation(shader.GetProgram(), "pointL[0].constant"), m_Constant);
-	glUniform1f(glGetUniformLocation(shader.GetProgram(), "pointL[0].linear"), m_Linear);
-	glUniform1f(glGetUniformLocation(shader.GetProgram(), "pointL[0].qaudratic"), m_Qaudratic);*/
 }

@@ -55,7 +55,7 @@ we::Mesh::~Mesh()
 
 	for (auto& t : m_pTextures)
 	{
-		we::ResourceManager::GetInstance().UnHold(t.second, we::TEXTURE, this);
+		we::ResourceManager::GetInstance().UnHold(t, we::TEXTURE, this);
 		
 	}
 	m_pTextures.clear();
@@ -68,7 +68,7 @@ void we::Mesh::Draw(we::Shader& shader) const
 	for (auto& t : m_pTextures)
 	{
 		//Different ids for dif, spec, normal etc. cos they could not be inserted
-		t.second->Bind(id);
+		t->Bind(id);
 		id++;
 	}
 

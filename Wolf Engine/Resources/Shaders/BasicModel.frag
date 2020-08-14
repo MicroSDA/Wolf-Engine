@@ -15,14 +15,14 @@ struct GeneralLight {
    vec3  colorAmbient;
    vec3  colorDiffuse;
    vec3  colorSpecular;
-   float specularIntensivity;
+   float shininesStrength;
 };
 struct PointLight {
    vec3  position;
    vec3  colorAmbient;
    vec3  colorDiffuse;
    vec3  colorSpecular;
-   float specularIntensivity;
+   float shininesStrength;
    float constant;
    float linear;                                                                   
    float qaudratic;    
@@ -33,7 +33,7 @@ struct SpotLight {
    vec3  colorAmbient;
    vec3  colorDiffuse;
    vec3  colorSpecular;
-   float specularIntensivity;
+   float shininesStrength;
    float constant;
    float linear;                                                                   
    float qaudratic; 
@@ -44,7 +44,7 @@ struct Material {
    vec3  colorAmbient;
    vec3  colorDiffuse;
    vec3  colorSpecular;
-   float specularPower;
+   float shinines;
    float transparency;
 };
 
@@ -76,9 +76,9 @@ vec4 ProcessGeneralLight(GeneralLight generalLight, Material material)
        float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
        if(m_SpecularShading > 0.0)
        {
-          m_SpecularShading = pow(m_SpecularShading, material.specularPower);
-          m_SpecularColor  = vec4(material.colorSpecular * generalLight.colorSpecular, 1.0) * generalLight.specularIntensivity * m_SpecularShading * 
-          (texture(SH_MAP, TextureCoords).rgba * texture(SH_MAP, TextureCoords).a); // specular based on alpha ?
+          m_SpecularShading = pow(m_SpecularShading, material.shinines);
+          m_SpecularColor  = vec4(material.colorSpecular * generalLight.colorSpecular, 1.0) * generalLight.shininesStrength * m_SpecularShading * 
+          (texture(SPECULAR_TEXTURE, TextureCoords).rgba * texture(SPECULAR_TEXTURE, TextureCoords).a); // specular based on alpha ?
       }
     }
 
@@ -104,9 +104,9 @@ vec4 ProcessPointLight(PointLight pointLight, Material material)
        if(m_SpecularShading > 0.0)
        {
           //float spec = 1.0 * pow(max(dot(ToCameraDirection, m_Reflect), 0.0), material.specularPower);
-          m_SpecularShading = pow(m_SpecularShading, material.specularPower);
-          m_SpecularColor  = vec4(material.colorSpecular * pointLight.colorSpecular, 1.0) * pointLight.specularIntensivity * m_SpecularShading *
-          (texture(SH_MAP, TextureCoords).rgba * texture(SH_MAP, TextureCoords).a); // specular based on alpha ?
+          m_SpecularShading = pow(m_SpecularShading, material.shinines);
+          m_SpecularColor  = vec4(material.colorSpecular * pointLight.colorSpecular, 1.0) * pointLight.shininesStrength * m_SpecularShading *
+          (texture(SPECULAR_TEXTURE, TextureCoords).rgba * texture(SPECULAR_TEXTURE, TextureCoords).a); // specular based on alpha ?
       }
     }
 
@@ -144,9 +144,9 @@ vec4 ProcessSpotLight(SpotLight spotLight, Material material)
            if(m_SpecularShading > 0.0)
            {
               //float spec = 1.0 * pow(max(dot(ToCameraDirection, m_Reflect), 0.0), material.specularPower);
-              m_SpecularShading = pow(m_SpecularShading, material.specularPower);
-              m_SpecularColor  = vec4(material.colorSpecular * spotLight.colorSpecular, 1.0) * spotLight.specularIntensivity * m_SpecularShading *
-              (texture(SH_MAP, TextureCoords).rgba * texture(SH_MAP, TextureCoords).a); // specular based on alpha ?
+              m_SpecularShading = pow(m_SpecularShading, material.shinines);
+              m_SpecularColor  = vec4(material.colorSpecular * spotLight.colorSpecular, 1.0) * spotLight.shininesStrength * m_SpecularShading *
+              (texture(SPECULAR_TEXTURE, TextureCoords).rgba * texture(SPECULAR_TEXTURE, TextureCoords).a); // specular based on alpha ?
           }
         }
 

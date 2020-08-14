@@ -29,209 +29,106 @@ we::Texture* we::ResourceLoader::LoadTexture(const std::string& filePath)
 
 we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 {
-	std::ifstream infile;
-	infile.open(filePath, std::ios::binary);
-	// Create string buffer
-	std::string buffer;
-	std::string header("#Model");
-	// Set buffer size as header expected
-	buffer.resize(header.size());
-	// Read header
-	infile.read((char*)buffer.c_str(), sizeof(char) * header.size());
 
-	if (buffer != header)
-	{
+	std::ifstream _File;
+	_File.open(filePath, std::ios::binary);
+
+	if (MODEL3D_HEADER != we::Binarizer::ReadString(_File, sizeof(MODEL3D_HEADER - 1))) {
 		std::cerr << "Error, cannot read file - wrong header: " << filePath << std::endl;
 		exit(EXIT_FAILURE);
 	}
-    //Read meshes count  
-	unsigned int meshesCount = 0;
-	infile.read((char*)&meshesCount, sizeof(unsigned int));
-	if (meshesCount == 0)
-	{
+
+	unsigned int _MeshCount = we::Binarizer::ReadUint(_File);
+	if (_MeshCount == 0) {
 		std::cerr << "Error, cannot load model - mesh count 0: " << filePath << std::endl;
 		exit(EXIT_FAILURE);
 	}
 
-	std::vector<we::Mesh*> meshes;
+	std::vector<we::Mesh*> _Meshes;
+	for (unsigned int m = 0; m < _MeshCount; m++) {
 
-	//meshes.resize(meshesCount);
-	//Read each mesh
-	for (unsigned int m = 0; m < meshesCount; m++)
-	{
-		meshes.push_back(new we::Mesh());
-		//Read mesh name
-		unsigned int nameSize = 0;
-		infile.read((char*)&nameSize, sizeof(unsigned int));
-		if (nameSize == 0)
-		{
-			std::cerr << "Error, cannot load model - mesh size name 0: " << filePath << std::endl;
+		_Meshes.push_back(new we::Mesh());
+		std::string name = we::Binarizer::ReadString(_File,
+			we::Binarizer::ReadUint(_File));
+
+		unsigned int _VertexCount = we::Binarizer::ReadUint(_File);
+		if (_VertexCount == 0) {
+			std::cerr << "Error, cannot load model - vertices count 0: " << filePath << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
-		std::string meshName;
-		meshName.resize(nameSize);
-		infile.read((char*)meshName.c_str(), sizeof(char) * nameSize);
+		std::vector<we::Vertex> _Vertices;
+		_Vertices.resize(_VertexCount);
+		for (unsigned int v = 0; v < _VertexCount; v++) {
+			//Possition with one s :)))
+			_Vertices[v].m_Possition.x = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Possition.y = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Possition.z = we::Binarizer::ReadFloat(_File);
 
-		//Read vertex possition size
-		unsigned int possSize = 0;
-		infile.read((char*)&possSize, sizeof(unsigned int));
-		if (possSize == 0)
-		{
-			std::cerr << "Error, cannot load model - vertices size 0: " << filePath << std::endl;
-			exit(EXIT_FAILURE);
+			_Vertices[v].m_TextureCoords.x = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_TextureCoords.y = we::Binarizer::ReadFloat(_File);
+
+			_Vertices[v].m_Normals.x = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Normals.y = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Normals.z = we::Binarizer::ReadFloat(_File);
+
 		}
-		//Read vertex 
-		std::vector<we::Vertex> vertices;
-		vertices.resize(possSize);
-		for (unsigned int p = 0; p < possSize; p++)
-		{
-			infile.read((char*)&vertices[p].m_Possition.x, sizeof(float));
-			infile.read((char*)&vertices[p].m_Possition.y, sizeof(float));
-			infile.read((char*)&vertices[p].m_Possition.z, sizeof(float));
-		}
-		for (unsigned int p = 0; p < possSize; p++)
-		{
-			infile.read((char*)&vertices[p].m_TextureCoords.x, sizeof(float));
-			infile.read((char*)&vertices[p].m_TextureCoords.y, sizeof(float));
-		}
-		for (unsigned int p = 0; p < possSize; p++)
-		{
-			infile.read((char*)&vertices[p].m_Normals.x, sizeof(float));
-			infile.read((char*)&vertices[p].m_Normals.y, sizeof(float));
-			infile.read((char*)&vertices[p].m_Normals.z, sizeof(float));
-		}
-		//Read indices size
-		unsigned int indicesSize = 0;
-		infile.read((char*)&indicesSize, sizeof(unsigned int));
-		if (indicesSize == 0)
-		{
+		unsigned int _IndicesCount = we::Binarizer::ReadUint(_File);
+		if (_IndicesCount == 0) {
 			std::cerr << "Error, cannot load model - indices size 0: " << filePath << std::endl;
 			exit(EXIT_FAILURE);
 		}
 
-		std::vector<unsigned int> indices;
-		indices.resize(indicesSize);
-		//Read indices
-		for (unsigned int i = 0; i < indicesSize; i++)
+		std::vector<unsigned int> _Indices;
+		_Indices.resize(_IndicesCount);
+		for (unsigned int i = 0; i < _IndicesCount; i++) {
+			_Indices[i] = we::Binarizer::ReadUint(_File);
+		}
+
+		//!issue ≈сли грузит андефайнед больше чем один раз то ее кажетс€ удал€ет или замен€ет последней андефайнед
+		//»ли что то с ресур менеджером или так оо и работает, вытесн€ет по тому же адресу туже текстуру ибо в этом векторе замен€ет какого то черта. у них индесы как будето адресса, надо проверить на тестовом поинт векторе 
+		//ѕока что силой их на три штуки поставил 
+		std::vector<we::Texture*> _Textures;
+		//Max textures is 4 for now
+		for (unsigned int t = 1; t < MAX_TEXTURES_COUNT; t++)
 		{
-			infile.read((char*)&indices[i], sizeof(unsigned int));
+			unsigned int _NameSize = we::Binarizer::ReadUint(_File);
+			std::string _Name = we::Binarizer::ReadString(_File, _NameSize);
+			we::Texture* _Texture;
+			if (_NameSize > 0) {
+				_Texture = reinterpret_cast<we::Texture*>(we::ResourceManager::GetInstance().Hold(_Name, we::TEXTURE, _Meshes.back()));
+				_Texture->SetType(we::TEXTURES(t));
+				_Textures.push_back(_Texture);
+			}
+			else {
+				_Texture = reinterpret_cast<we::Texture*>(we::ResourceManager::GetInstance().Hold("undefined.png", we::TEXTURE, _Meshes.back()));
+				_Texture->SetType(we::TEXTURES(t));
+				_Textures.push_back(_Texture);
+			}
 		}
 
-		std::map<std::string, we::Texture*> texures;
-		//Read texures
-		unsigned int diffusSize = 0;
-		infile.read((char*)&diffusSize, sizeof(unsigned int));
-		if (diffusSize != 0)
-		{
-			//Read difuse
-			std::string diffuse;
-			diffuse.resize(diffusSize);
-			infile.read((char*)diffuse.c_str(), sizeof(char) * diffusSize);
-			/*we::Texture* texure;
-			auto vglambda = [](we::Texture* texure, we::RHolder* holder) {
-				
-				texure = reinterpret_cast<Texture*>(we::ResourceManager::GetInstance().Hold("diffuse.png", we::TEXTURE, holder));
-			};
-			
-			std::thread thr(vglambda, texure, meshes.back());
-			thr.join();*/
-			texures.insert(
-				std::pair<std::string, we::Texture*>(
-					"DIFFUSE_TEXURE",
-					reinterpret_cast<we::Texture*>(
-						we::ResourceManager::GetInstance().Hold(
-							diffuse, we::TEXTURE, meshes.back()))));
-			
-		}
-		else {
-				texures.insert(
-					std::pair<std::string, we::Texture*>(
-						"DIFFUSE_TEXURE",
-						reinterpret_cast<we::Texture*>(
-							we::ResourceManager::GetInstance().Hold(
-								"undefined.png", we::TEXTURE, meshes.back()))));
-		}
+		we::Material _Material;
+		glm::vec3 _ColorProperty(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		_Material.SetAmbientColor(_ColorProperty);// Ambient
+		_ColorProperty = glm::vec3(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		_Material.SetDiffuseColor(_ColorProperty);// Diffues
+		_ColorProperty = glm::vec3(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		_Material.SetSpecularColor(_ColorProperty);// Specular
+		_ColorProperty = glm::vec3(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		_Material.SetTransparentMask(_ColorProperty);// Transparent mask
+		_Material.SetShinines(we::Binarizer::ReadFloat(_File));// Shinines
 
-		unsigned int specularSize = 0;
-		infile.read((char*)&specularSize, sizeof(unsigned int));
-		if (specularSize != 0)
-		{
-			//Read specular
-			std::string specular;
-			specular.resize(specularSize);
-			infile.read((char*)specular.c_str(), sizeof(char) * specularSize);
-			texures.insert(
-				std::pair<std::string, we::Texture*>(
-					"SPECULAR_TEXURE",
-					reinterpret_cast<we::Texture*>(
-						we::ResourceManager::GetInstance().Hold(
-							specular, we::TEXTURE, meshes.back()))));
-		}
-		else {
-			texures.insert(
-				std::pair<std::string, we::Texture*>(
-					"SPECULAR_TEXURE",
-					reinterpret_cast<we::Texture*>(
-						we::ResourceManager::GetInstance().Hold(
-							"undefined.png", we::TEXTURE, meshes.back()))));
-		}
+		_Meshes.back()->SetVertices(_Vertices);
+		_Meshes.back()->SetIndices(_Indices);
+		_Meshes.back()->SetTextures(_Textures);
+		_Meshes.back()->SetMaterial(_Material);
+		_Meshes.back()->Init();
 
-		unsigned int heightMapSize = 0;
-		infile.read((char*)&heightMapSize, sizeof(unsigned int));
-		if (heightMapSize != 0)
-		{
-			//Read height map
-			std::string heightMap;
-			heightMap.resize(heightMapSize);
-			infile.read((char*)heightMap.c_str(), sizeof(char) * heightMapSize);
-			texures.insert(
-				std::pair<std::string, we::Texture*>(
-					"NORMAL_MAP",
-					reinterpret_cast<we::Texture*>(
-						we::ResourceManager::GetInstance().Hold(
-							heightMap, we::TEXTURE, meshes.back()))));
-		}
-		else {
-			texures.insert(
-				std::pair<std::string, we::Texture*>(
-					"NORMAL_MAP",
-					reinterpret_cast<we::Texture*>(
-						we::ResourceManager::GetInstance().Hold(
-							"undefined.png", we::TEXTURE, meshes.back()))));
-		}
-
-		unsigned int shinnesSize = 0;
-		infile.read((char*)&shinnesSize, sizeof(unsigned int));
-		if (shinnesSize != 0)
-		{
-			//Read shinnes
-			std::string shinnes;
-			shinnes.resize(shinnesSize);
-			infile.read((char*)shinnes.c_str(), sizeof(char) * shinnesSize);
-			texures.insert(
-				std::pair<std::string, we::Texture*>(
-					"SHINES_TEXTURE",
-					reinterpret_cast<we::Texture*>(
-						we::ResourceManager::GetInstance().Hold(
-							shinnes, we::TEXTURE, meshes.back()))));
-		}
-		else {
-			texures.insert(
-				std::pair<std::string, we::Texture*>(
-					"SHINES_TEXTURE",
-					reinterpret_cast<we::Texture*>(
-						we::ResourceManager::GetInstance().Hold(
-							"undefined.png", we::TEXTURE, meshes.back()))));
-		}
-
-
-
-		meshes.back()->SetVertices(vertices);
-		meshes.back()->SetIndices(indices);
-		meshes.back()->SetTextures(texures);
-		meshes.back()->Init();
+		
 	}
-
-	return new we::Model3D(meshes);
+	
+	_File.close();
+	return new we::Model3D(_Meshes);
 }
+
+

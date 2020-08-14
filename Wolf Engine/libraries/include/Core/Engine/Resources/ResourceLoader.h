@@ -3,8 +3,10 @@
 #include <Core/Engine/Render/Mesh/Mesh.h>
 #include <Core/Engine/Render/Model3D/Model3D.h>
 #include <Core/Engine/Render/Texture/Texture.h>
+#include <Utilites/Binarizer/Binarizer.h>
 #include <iostream>
-#include <fstream>
+
+
 
 
 class ResourceManager;

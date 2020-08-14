@@ -21,8 +21,9 @@ namespace we {
 		~Mesh();
 		inline void SetVertices(std::vector<we::Vertex> vertices) { m_Vertices = vertices; }
 		inline void SetIndices(std::vector<unsigned int> indices) { m_Indices = indices; }
-		inline void SetTextures(std::map<std::string, we::Texture*> textures) { m_pTextures = textures; }
-		inline std::map<std::string, we::Texture*>* GetTextures() { return &m_pTextures; }
+		inline void SetTextures(std::vector<we::Texture*> textures) { m_pTextures = textures; }
+		inline void SetMaterial(we::Material material) { m_Material = material; }
+		inline std::vector<we::Texture*>* GetTextures() { return &m_pTextures; }
 		void Init();
 		//Mesh operator=(we::Mesh&) {r}
 		void Draw(we::Shader& shader) const;
@@ -32,7 +33,7 @@ namespace we {
 		std::vector<we::Vertex> m_Vertices;
 		std::vector<unsigned int> m_Indices;
 		std::string m_Name;
-		std::map<std::string, we::Texture*> m_pTextures;
+		std::vector<we::Texture*> m_pTextures;
 		we::Material m_Material;
 	};
 }

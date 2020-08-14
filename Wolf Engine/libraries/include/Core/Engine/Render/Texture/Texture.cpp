@@ -2,8 +2,10 @@
 //#include <Core/Engine/Resources/ResourceManager.h>
 
 
-we::Texture::Texture():we::Resource()
+we::Texture::Texture():we::Resource(),
+    m_Type(we::SIMPLE_T)
 {
+
 	std::cout << "Texture(" << this << ")\n";
 }
 

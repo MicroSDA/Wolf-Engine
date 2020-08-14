@@ -16,6 +16,6 @@ void we::GeneralLight::Process(const we::Shader& shader)
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), "generalL.colorAmbient"),1,     &m_AmbientColor[0]);
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), "generalL.colorDiffuse"),1,     &m_DiffuseColor[0]);
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), "generalL.colorSpecular"),1,    &m_SpecularColor[0]);
-	glUniform1f(glGetUniformLocation(shader.GetProgram(),  "generalL.specularIntensivity"), m_SpecularIntens);
+	glUniform1f(glGetUniformLocation(shader.GetProgram(),  "generalL.shininesStrength"),   m_ShininesStrength);
 
 }

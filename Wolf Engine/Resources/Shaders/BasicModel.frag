@@ -72,8 +72,9 @@ vec4 ProcessGeneralLight(GeneralLight generalLight, Material material)
     if(m_DiffuesShading > 0.0)
     {
        m_DiffuesColor   = vec4(material.colorDiffuse * generalLight.colorDiffuse * m_DiffuesShading, 1.0) * texture(DIFFUSE_TEXTURE,  TextureCoords).rgba;
-       vec3  m_Reflect  = normalize(-reflect(generalLight.direction, Normal));
-       float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
+      //vec3  m_Reflect  = normalize(reflect(-generalLight.direction, Normal));
+       //float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
+       float m_SpecularShading = dot(Normal, normalize(-generalLight.direction + ToCameraDirection));
        if(m_SpecularShading > 0.0)
        {
           m_SpecularShading = pow(m_SpecularShading, material.shinines);
@@ -86,9 +87,9 @@ vec4 ProcessGeneralLight(GeneralLight generalLight, Material material)
 }
 vec4 ProcessPointLight(PointLight pointLight, Material material)
 {
-    vec3  m_LightDirection = pointLight.position - Position;                                           
+    vec3  m_LightDirection = normalize(pointLight.position - Position);                                           
     float m_Distance = length(m_LightDirection);                                                
-    m_LightDirection = normalize(m_LightDirection);                                                                                                                                   
+    //m_LightDirection = normalize(m_LightDirection);                                                                                                                                   
 
     vec4  m_AmbientColor   = vec4(material.colorAmbient * pointLight.colorAmbient, 1.0)  * texture(DIFFUSE_TEXTURE,  TextureCoords).rgba;
     vec4  m_DiffuesColor   = vec4(0.0, 0.0, 0.0, 1.0);
@@ -99,8 +100,10 @@ vec4 ProcessPointLight(PointLight pointLight, Material material)
     if(m_DiffuesShading > 0.0)
     {
        m_DiffuesColor   = vec4(material.colorDiffuse * pointLight.colorDiffuse * m_DiffuesShading, 1.0) * texture(DIFFUSE_TEXTURE,  TextureCoords).rgba;
-       vec3  m_Reflect  = normalize(-reflect(m_LightDirection, Normal));
-       float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
+       //vec3  m_Reflect  = normalize(-reflect(m_LightDirection, Normal));
+       //float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
+       float m_SpecularShading = dot(Normal, normalize(m_LightDirection + ToCameraDirection));
+      
        if(m_SpecularShading > 0.0)
        {
           //float spec = 1.0 * pow(max(dot(ToCameraDirection, m_Reflect), 0.0), material.specularPower);
@@ -139,8 +142,9 @@ vec4 ProcessSpotLight(SpotLight spotLight, Material material)
         if(m_DiffuesShading > 0.0)
         {
            m_DiffuesColor   = vec4(material.colorDiffuse * spotLight.colorDiffuse * m_DiffuesShading, 1.0) * texture(DIFFUSE_TEXTURE,  TextureCoords).rgba;
-           vec3  m_Reflect  = normalize(-reflect(m_LightDirection, Normal));
-           float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
+           //vec3  m_Reflect  = normalize(-reflect(m_LightDirection, Normal));
+           //float m_SpecularShading = dot(ToCameraDirection, m_Reflect);
+           float m_SpecularShading = dot(Normal, normalize(m_LightDirection + ToCameraDirection));
            if(m_SpecularShading > 0.0)
            {
               //float spec = 1.0 * pow(max(dot(ToCameraDirection, m_Reflect), 0.0), material.specularPower);
@@ -179,5 +183,8 @@ void main()
     {
         m_TotalColor += ProcessSpotLight(spotL[i], material);
     }
+
+    //m_TotalColor.rgb = pow(m_TotalColor.rgb, vec3(1.0/1.2));
+
     gl_FragColor = m_TotalColor;
 }

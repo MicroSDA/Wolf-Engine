@@ -2,6 +2,7 @@
 //#include <Core/Engine/Resources/ResourceManager.h>
 #include <Core/Engine/Resources/Resource.h>
 #include <Utilites/GLEW/glew.h>
+#include <Utilites/Image/Image.h>
 
 namespace we
 { 
@@ -12,18 +13,18 @@ namespace we
 		NORMAL_T,
 		SHINES_T
 	};
-	struct ImageData
+	/*struct ImageData
 	{
 		int m_Width, m_Height, m_NumComponets;
 		unsigned char* m_pImageData;
-	};
+	};*/
 
 	class Texture :public we::Resource
 	{
 	public:
-		Texture();
-		Texture(const we::ImageData& imageData);
+		Texture(we::ImageData& imageData);
 		~Texture();
+		void Init();
 		void Bind(unsigned int i);
 		void UnBind();
 
@@ -32,6 +33,7 @@ namespace we
 	private:
 		GLuint m_Texture;
 		we::TEXTURES m_Type;
+		we::ImageData* m_ImageData;
 	};
 }
 

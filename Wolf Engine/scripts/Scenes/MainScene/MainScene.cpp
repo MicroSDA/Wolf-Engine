@@ -87,6 +87,13 @@ int MainScene::Process()
       
     }
 
+   
+    float rotate = glm::sin((float)SDL_GetPerformanceCounter() / 1000000);
+    //m_pObject3d[0]->SetRotation(glm::vec3(0.0, rotate, 0.0));
+    //reinterpret_cast<we::SpotLight*>(m_LightSources[0])->SetDirection(0, -rotate, 0);
+    //reinterpret_cast<we::SpotLight*>(m_LightSources[2])->SetDiffuseColor(1, rotate, 1);
+  
+
 
     if (m_Input->IsKeyboardBPressed(we::KEY_DELETE))
     {
@@ -131,20 +138,25 @@ void MainScene::Prepare()
     we::PointLight*   pointlLight  = new we::PointLight(0);
     we::SpotLight*    spotLight    = new we::SpotLight(0);
 
-    pointlLight->SetPosition(0, 0, -10);
-    pointlLight->SetConstant(0.1f);
-    pointlLight->SetConstant(0.1f);
-    pointlLight->SetLinear(0.01);
-    pointlLight->SetQaudratic(0.001);
 
-    spotLight->SetPosition(0, 0, -10);
+    generalLight->SetDiffuseColor(1.0, 1.0, 1.0);
+    generalLight->SetAmbientColor(0.0f, 0.0f, 0.0f);
+    pointlLight->SetPosition(0, 0, -100);
+    pointlLight->SetConstant(0.1f);
+    pointlLight->SetLinear(0.1);
+    pointlLight->SetQaudratic(0.01);
+
+    spotLight->SetPosition(0, 0, -9);
     spotLight->SetConstant(0.1f);
     spotLight->SetLinear(0.01);
     spotLight->SetQaudratic(0.001);
-    //reinterpret_cast<we::PointLight*>(m_LightSources[0])->SetPosition(0, 0, -10);
-    //m_LightSources.push_back(generalLight);
-    m_LightSources.push_back(pointlLight);
-    m_LightSources.push_back(spotLight);
+
+   
+    m_LightSources.push_back(generalLight);
+    //m_LightSources.push_back(pointlLight);
+    //m_LightSources.push_back(spotLight);
+
+    //reinterpret_cast<we::PointLight*>(m_LightSources[0])->SetPosition(0, 0, -20);
    
     for (unsigned int i = 0; i < 1; i++)
     {
@@ -158,9 +170,9 @@ void MainScene::Prepare()
 
         m_pObject3d.push_back(new we::Object3D());
         m_pObject3d.back()->SetModel3D(
-            we::ResourceManager::GetInstance().Hold("nanosuit", we::MODEL3D, m_pObject3d.back())
+            we::ResourceManager::GetInstance().Hold("cube", we::MODEL3D, m_pObject3d.back())
             );
-        m_pObject3d.back()->SetPossition(0, -10, 5);
+        m_pObject3d.back()->SetPossition(0, 0, 5);
         m_pObject3d.back()->SetRotation(0, 180,0);
         //m_pObject3d.back()->SetScale(10, 10, 10);
    

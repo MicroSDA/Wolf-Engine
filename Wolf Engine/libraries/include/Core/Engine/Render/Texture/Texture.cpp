@@ -1,18 +1,22 @@
 #include "Texture.h"
 //#include <Core/Engine/Resources/ResourceManager.h>
 
-
-we::Texture::Texture():we::Resource(),
-    m_Type(we::SIMPLE_T)
+we::Texture::Texture(we::ImageData& imageData):we::Resource(),
+    m_Type(we::SIMPLE_T),
+	m_Texture(NULL)
 {
-
+	m_ImageData = &imageData;
 	std::cout << "Texture(" << this << ")\n";
 }
 
-we::Texture::Texture(const we::ImageData& imageData):we::Resource()
+we::Texture::~Texture()
 {
-	std::cout << "Texture(" << this << ")\n";
+	std::cout << "~Texture(" << this << ")\n";
+	glDeleteTextures(1, &m_Texture);
+}
 
+void we::Texture::Init()
+{
 	glGenTextures(1, &m_Texture);
 
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
@@ -22,8 +26,16 @@ we::Texture::Texture(const we::ImageData& imageData):we::Resource()
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, imageData.m_Width, imageData.m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData.m_pImageData);
+
+	if (m_Type == we::DIFFUSE_T)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+	}
+	else {
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+	}
+
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -44,15 +56,10 @@ we::Texture::Texture(const we::ImageData& imageData):we::Resource()
 		std::cerr << "Anisotropic filtering isn't supported" << std::endl;
 	}
 
-
 	glBindTexture(GL_TEXTURE_2D, 0);
-	
-}
 
-we::Texture::~Texture()
-{
-	std::cout << "~Texture(" << this << ")\n";
-	glDeleteTextures(1, &m_Texture);
+	we::Image::FreeImageData(m_ImageData);
+	
 }
 
 void we::Texture::Bind(unsigned int i)

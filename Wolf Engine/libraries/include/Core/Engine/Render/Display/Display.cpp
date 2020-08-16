@@ -56,6 +56,11 @@ void we::Display::InitOpengl()
 	SetRenderProps(GL_CULL_FACE, true);
 	SetRenderProps(GL_DEPTH_CLAMP, true);
 	glCullFace(GL_BACK);
+	glEnable(GL_FRAMEBUFFER_SRGB);
+
+	/*glEnable(GL_STENCIL_TEST);
+	glClearStencil(0);
+	glStencilMask(1);*/
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_SRC_COLOR, GL_ZERO);
 	//glBlendFunc(GL_ONE, GL_ZERO);

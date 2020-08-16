@@ -1,7 +1,6 @@
 #include "ResourceLoader.h"
-#include <Utilites/Image/Image.h>
 #include <Core/Engine/Resources/ResourceManager.h>
-#include <thread>
+
 we::ResourceLoader::ResourceLoader()
 {
 }
@@ -14,15 +13,17 @@ we::Texture* we::ResourceLoader::LoadTexture(const std::string& filePath)
 {
 	int width, height, numComponets;
 
-	unsigned char* imageData = stbi_load(filePath.c_str(), &width, &height, &numComponets, 4);
+	we::Image image;
+	we::ImageData* pImageData = image.LoadFromFile(filePath);
+	//unsigned char* imageData = stbi_load(filePath.c_str(), &width, &height, &numComponets, 4);
 	
-	if (imageData == NULL) {
+	if (pImageData == nullptr) {
 		std::cerr << "Image loading failed for texure" << filePath << std::endl;
 	}
 
-	we::Texture* t = new we::Texture(we::ImageData({ width, height, numComponets, imageData }));
+	we::Texture* t = new we::Texture(*pImageData);
 
-	stbi_image_free(imageData);
+	//stbi_image_free(imageData);
 
 	return t;
 }
@@ -98,23 +99,35 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 			if (_NameSize > 0) {
 				_Texture = reinterpret_cast<we::Texture*>(we::ResourceManager::GetInstance().Hold(_Name, we::TEXTURE, _Meshes.back()));
 				_Texture->SetType(we::TEXTURES(t));
+				_Texture->Init();
 				_Textures.push_back(_Texture);
 			}
 			else {
 				_Texture = reinterpret_cast<we::Texture*>(we::ResourceManager::GetInstance().Hold("undefined.png", we::TEXTURE, _Meshes.back()));
-				_Texture->SetType(we::TEXTURES(t));
+				_Texture->SetType(we::TEXTURES(t));// Ошибка тут, я редефайню две теже текстуры по тому же адрессу похоже 
+				_Texture->Init();
 				_Textures.push_back(_Texture);
 			}
 		}
 
+		//Путаются цвета почему то совсем на оборот идут как будто задом на перед или записывает или считывает не в том порядке !!! Убрать нахер из скобок их и нормально их по порядку использовать 
 		we::Material _Material;
-		glm::vec3 _ColorProperty(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		glm::vec3 _ColorProperty;
+		_ColorProperty.r = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.g = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.b = we::Binarizer::ReadFloat(_File);
 		_Material.SetAmbientColor(_ColorProperty);// Ambient
-		_ColorProperty = glm::vec3(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		_ColorProperty.r = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.g = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.b = we::Binarizer::ReadFloat(_File);
 		_Material.SetDiffuseColor(_ColorProperty);// Diffues
-		_ColorProperty = glm::vec3(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		_ColorProperty.r = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.g = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.b = we::Binarizer::ReadFloat(_File);
 		_Material.SetSpecularColor(_ColorProperty);// Specular
-		_ColorProperty = glm::vec3(we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File), we::Binarizer::ReadFloat(_File));
+		_ColorProperty.r = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.g = we::Binarizer::ReadFloat(_File);
+		_ColorProperty.b = we::Binarizer::ReadFloat(_File);
 		_Material.SetTransparentMask(_ColorProperty);// Transparent mask
 		_Material.SetShinines(we::Binarizer::ReadFloat(_File));// Shinines
 

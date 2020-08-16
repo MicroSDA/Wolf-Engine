@@ -26,6 +26,8 @@ void we::SpotLight::Process(const we::Shader& shader)
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), index), 1, &m_DiffuseColor[0]);
 	_snprintf_s(index, sizeof(index), "spotL[%i].colorSpecular", m_Id);
 	glUniform3fv(glGetUniformLocation(shader.GetProgram(), index), 1, &m_SpecularColor[0]);
+	_snprintf_s(index, sizeof(index), "spotL[%i].shininesStrength", m_Id);
+	glUniform1f(glGetUniformLocation(shader.GetProgram(), index), m_ShininesStrength);
 	_snprintf_s(index, sizeof(index), "spotL[%i].constant", m_Id);
 	glUniform1f(glGetUniformLocation(shader.GetProgram(), index), m_Constant);
 	_snprintf_s(index, sizeof(index), "spotL[%i].linear", m_Id);

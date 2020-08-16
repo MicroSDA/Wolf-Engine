@@ -81,9 +81,6 @@
     <ClCompile Include="libraries\include\Core\Engine\Render\Texture\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="libraries\include\Utilites\Image\Image.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="libraries\include\Core\Engine\Render\Material\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -97,6 +94,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="libraries\include\Core\Engine\Render\Light\SpotLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libraries\include\Utilites\Image\Image.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,9 +167,6 @@
     <ClInclude Include="libraries\include\Core\Engine\Render\Texture\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="libraries\include\Utilites\Image\Image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="libraries\include\Core\Engine\Render\Material\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -186,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="libraries\include\Utilites\Binarizer\Binarizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libraries\include\Utilites\Image\Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,6 +5,7 @@
 
 
 class ResourceManager;
+
 namespace we {
 
 	class Object3D : public Drawable

@@ -2,36 +2,42 @@
 
 we::Vertex::Vertex()
 {
-	m_Possition = glm::vec3(0.0f, 0.0f, 0.0f);
+	m_Position = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_TextureCoords = glm::vec2(0.0f, 0.0f);
 	m_Normals = glm::vec3(0.0f, 0.0f, 0.0f);
+	m_Tangents = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_Id = 0;
 }
 
-we::Vertex::Vertex(const glm::vec3& possition,
-	const glm::vec2& textureCoords, 
+we::Vertex::Vertex(const glm::vec3& position,
+	const glm::vec2& textureCoords,
 	const glm::vec3& normals,
-	const GLuint& id)
+	const glm::vec3& tangents,
+	const unsigned int& id)
 {
-	m_Possition = possition;
+	m_Position = position;
 	m_TextureCoords = textureCoords;
 	m_Normals = normals;
+	m_Tangents = tangents;
 	m_Id = id;
 }
 
-we::Vertex::Vertex(const GLfloat& possitionX,
-	const GLfloat& possitionY,
-	const GLfloat& possitionZ,
-	const GLfloat& textureCoordX,
-	const GLfloat& textureCoordY,
-	const GLfloat& normalX,
-	const GLfloat& normalY,
-	const GLfloat& normalZ,
-	const GLuint& id)
+we::Vertex::Vertex(const float& positionX,
+	const float& positionY,
+	const float& positionZ,
+	const float& textureCoordX,
+	const float& textureCoordY,
+	const float& normalX,
+	const float& normalY,
+	const float& normalZ,
+	const float& tangentX,
+	const float& tangentY,
+	const float& tangentZ,
+	const unsigned int& id)
 {
-	m_Possition.x = possitionX;
-	m_Possition.y = possitionY;
-	m_Possition.z = possitionZ;
+	m_Position.x = positionX;
+	m_Position.y = positionY;
+	m_Position.z = positionZ;
 
 	m_TextureCoords.x = textureCoordX;
 	m_TextureCoords.y = textureCoordY;
@@ -40,10 +46,13 @@ we::Vertex::Vertex(const GLfloat& possitionX,
 	m_Normals.y = normalY;
 	m_Normals.z = normalZ;
 
+	m_Tangents.x = tangentX;
+	m_Tangents.y = tangentY;
+	m_Tangents.z = tangentZ;
+
 	m_Id = id;
 }
 
 we::Vertex::~Vertex()
 {
-	//std::cout << "~Vertex(" << this << ")\n";
 }

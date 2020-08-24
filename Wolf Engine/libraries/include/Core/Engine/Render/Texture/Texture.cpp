@@ -3,7 +3,8 @@
 
 we::Texture::Texture(we::ImageData& imageData):we::Resource(),
     m_Type(we::SIMPLE_T),
-	m_Texture(NULL)
+	m_Texture(NULL),
+	m_IsInitalized(false)
 {
 	m_ImageData = &imageData;
 	std::cout << "Texture(" << this << ")\n";
@@ -17,23 +18,41 @@ we::Texture::~Texture()
 
 void we::Texture::Init()
 {
+	if (m_IsInitalized)
+		return;
+	
+
 	glGenTextures(1, &m_Texture);
-
 	glBindTexture(GL_TEXTURE_2D, m_Texture);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	if (m_Type == we::DIFFUSE_T)
+	if (m_Type == we::DIFFUSE_T || m_Type == we::NORMAL_T ) // Normal only for nanosuit in srgb
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+		if (m_ImageData->m_HasAlpha)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB_ALPHA, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+		}
+		else {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGB, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+		}
+		  
 	}
 	else {
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+		if (m_ImageData->m_HasAlpha)
+		{
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+		}
+		else {
+
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_ImageData->m_Width, m_ImageData->m_Width, 0, GL_RGB, GL_UNSIGNED_BYTE, m_ImageData->m_pImageData);
+		}
+		
+		
 	}
 
 
@@ -60,6 +79,7 @@ void we::Texture::Init()
 
 	we::Image::FreeImageData(m_ImageData);
 	
+	m_IsInitalized = true;
 }
 
 void we::Texture::Bind(unsigned int i)

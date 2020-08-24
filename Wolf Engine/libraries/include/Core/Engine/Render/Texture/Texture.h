@@ -34,6 +34,8 @@ namespace we
 		GLuint m_Texture;
 		we::TEXTURES m_Type;
 		we::ImageData* m_ImageData;
+
+		bool m_IsInitalized;
 	};
 }
 

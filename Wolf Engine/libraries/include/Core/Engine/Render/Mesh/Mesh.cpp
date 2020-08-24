@@ -27,8 +27,7 @@ we::Mesh::Mesh(const we::Mesh& other): we::RHolder()
 }
 
 we::Mesh::Mesh(const std::vector<we::Vertex>& vertices,
-	           const std::vector<unsigned int>& indices
-	           ): we::RHolder()
+	           const std::vector<unsigned int>& indices): we::RHolder()
 {
     m_Vertices = vertices;
 	m_Indices = indices;
@@ -67,6 +66,7 @@ void we::Mesh::Draw(we::Shader& shader) const
 	unsigned int id = 0;
 	for (auto& t : m_pTextures)
 	{
+		
 		//Different ids for dif, spec, normal etc. cos they could not be inserted
 		t->Bind(id);
 		id++;
@@ -78,10 +78,12 @@ void we::Mesh::Draw(we::Shader& shader) const
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
 	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
 	//Bind current arry to 0 for safe behavior
 	glBindVertexArray(0);
 }
@@ -106,6 +108,8 @@ void we::Mesh::Init()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(we::Vertex), (GLvoid*)offsetof(we::Vertex, m_TextureCoords));
 	// Vertex Normals
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(we::Vertex), (GLvoid*)offsetof(we::Vertex, m_Normals));
+	// Vertex Tangents
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(we::Vertex), (GLvoid*)offsetof(we::Vertex, m_Tangents));
 	// Set the indices
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(GLuint), &m_Indices[0], GL_STATIC_DRAW);

@@ -9,25 +9,30 @@ namespace we {
 	{
 	public:
 		Vertex();
-		Vertex(const glm::vec3& possition,
-			   const glm::vec2& textureCoords,
-			   const glm::vec3& normals,
-			   const GLuint& id);
-		Vertex(const GLfloat& possitionX,
-			   const GLfloat& possitionY,
-			   const GLfloat& possitionZ,
-			   const GLfloat& textureCoordX,
-			   const GLfloat& textureCoordY,
-			   const GLfloat& normalX,
-			   const GLfloat& normalY,
-			   const GLfloat& normalZ,
-			   const GLuint& id);
+		Vertex(const glm::vec3& position,
+			const glm::vec2& textureCoords,
+			const glm::vec3& normals,
+			const glm::vec3& tangents,
+			const unsigned int& id);
+		Vertex(const float& positionX,
+			const float& positionY,
+			const float& positionZ,
+			const float& textureCoordX,
+			const float& textureCoordY,
+			const float& normalX,
+			const float& normalY,
+			const float& normalZ,
+			const float& tangentX,
+			const float& tangentY,
+			const float& tangentZ,
+			const unsigned int& id);
 		~Vertex();
 
-		glm::vec3 m_Possition;
+		glm::vec3 m_Position;
 		glm::vec2 m_TextureCoords;
 		glm::vec3 m_Normals;
-		GLuint m_Id;
+		glm::vec3 m_Tangents;
+		unsigned int m_Id;
 	};
 }
 

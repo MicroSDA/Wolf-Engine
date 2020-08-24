@@ -19,7 +19,7 @@ namespace we {
 		inline float GetLinear(const float& linear)                             { return  m_Linear; }
 		inline float GetQaudratic(const float& qaudratic)                       { return m_Qaudratic; }
 
-		void Process(const we::Shader& shader);
+		void Process(const we::Shader& shader) override;
 	protected:
 		glm::vec3 m_Position;
 		float     m_Constant;

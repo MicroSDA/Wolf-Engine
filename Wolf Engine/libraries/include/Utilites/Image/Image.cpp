@@ -24,6 +24,7 @@ we::ImageData* we::Image::LoadFromFile(const std::string& filePath)
 		unsigned char ComHeader[12] = { 0x0,0x0,0x1,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0 };
 		unsigned char Header[12];
 
+		//Always uncompresed - see http://www.opennet.ru/docs/formats/targa.pdf
 		for (unsigned int i = 0; i < 12; i++)
 		{
 			Header[i] = we::Binarizer::ReadByte(m_File);
@@ -34,7 +35,7 @@ we::ImageData* we::Image::LoadFromFile(const std::string& filePath)
 		}
 		else {
 
-			return LoadCompressedTGA();
+			return LoadUncompressedTGA();
 		}
 
 
@@ -50,7 +51,9 @@ we::ImageData* we::Image::LoadFromFile(const std::string& filePath)
 		}
 		if (memcmp(&Header, &PngHeader, 8) == 0)
 		{
-			return LoadPNG();
+			//return LoadPNG();
+			std::cerr << "Undefined file format: " + filePath + "\n";
+			return nullptr;
 		}
 		else {
 
@@ -79,10 +82,10 @@ we::ImageData* we::Image::LoadUncompressedTGA()
 	_ImageData->m_Height = _Meta[3] * 256 + _Meta[2];
 	_ImageData->m_BytePerPixel = _Meta[4] / 8;
 
-	if (_ImageData->m_BytePerPixel == 24)
-		_ImageData->m_HasAlpha = false;
-	else
+	if (_Meta[4] == 32)
 		_ImageData->m_HasAlpha = true;
+	else
+		_ImageData->m_HasAlpha = false;
 
 	unsigned int _ImageDataSize = _ImageData->m_BytePerPixel *
 		                          _ImageData->m_Width *
@@ -94,7 +97,7 @@ we::ImageData* we::Image::LoadUncompressedTGA()
 
 	for (unsigned int i = 0; i < _ImageDataSize; i += _ImageData->m_BytePerPixel)
 	{
-		_ImageData->m_pImageData[i] ^= _ImageData->m_pImageData[i + 2] ^=
+		    _ImageData->m_pImageData[i] ^= _ImageData->m_pImageData[i + 2] ^=
 			_ImageData->m_pImageData[i] ^= _ImageData->m_pImageData[i + 2];
 	}
 	
@@ -116,10 +119,10 @@ we::ImageData* we::Image::LoadCompressedTGA()
 	_ImageData->m_Height = _Meta[3] * 256 + _Meta[2];
 	_ImageData->m_BytePerPixel = _Meta[4] / 8;
 
-	if (_ImageData->m_BytePerPixel == 24)
-		_ImageData->m_HasAlpha = false;
-	else
+	if (_Meta[4] == 32)
 		_ImageData->m_HasAlpha = true;
+	else
+		_ImageData->m_HasAlpha = false;
 
 	unsigned int _ImageDataSize = _ImageData->m_BytePerPixel *
 		                          _ImageData->m_Width *

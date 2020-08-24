@@ -12,7 +12,7 @@ namespace we {
 		inline void SetDirection(const glm::vec3& direction)                     { m_Direction = direction; }
 		inline glm::vec3 GetDirection()                                          { return m_Direction; }
 
-		void Process(const we::Shader& shader);
+		void Process(const we::Shader& shader) override;
 	private:
 		glm::vec3 m_Direction;
 	

@@ -49,8 +49,8 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 	for (unsigned int m = 0; m < _MeshCount; m++) {
 
 		_Meshes.push_back(new we::Mesh());
-		std::string name = we::Binarizer::ReadString(_File,
-			we::Binarizer::ReadUint(_File));
+		unsigned int _NameSize = we::Binarizer::ReadUint(_File);
+		std::string name = we::Binarizer::ReadString(_File, _NameSize);
 
 		unsigned int _VertexCount = we::Binarizer::ReadUint(_File);
 		if (_VertexCount == 0) {
@@ -62,9 +62,9 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 		_Vertices.resize(_VertexCount);
 		for (unsigned int v = 0; v < _VertexCount; v++) {
 			//Possition with one s :)))
-			_Vertices[v].m_Possition.x = we::Binarizer::ReadFloat(_File);
-			_Vertices[v].m_Possition.y = we::Binarizer::ReadFloat(_File);
-			_Vertices[v].m_Possition.z = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Position.x = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Position.y = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Position.z = we::Binarizer::ReadFloat(_File);
 
 			_Vertices[v].m_TextureCoords.x = we::Binarizer::ReadFloat(_File);
 			_Vertices[v].m_TextureCoords.y = we::Binarizer::ReadFloat(_File);
@@ -72,6 +72,10 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 			_Vertices[v].m_Normals.x = we::Binarizer::ReadFloat(_File);
 			_Vertices[v].m_Normals.y = we::Binarizer::ReadFloat(_File);
 			_Vertices[v].m_Normals.z = we::Binarizer::ReadFloat(_File);
+
+			_Vertices[v].m_Tangents.x = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Tangents.y = we::Binarizer::ReadFloat(_File);
+			_Vertices[v].m_Tangents.z = we::Binarizer::ReadFloat(_File);
 
 		}
 		unsigned int _IndicesCount = we::Binarizer::ReadUint(_File);
@@ -86,31 +90,24 @@ we::Model3D* we::ResourceLoader::LoadModel(const std::string& filePath)
 			_Indices[i] = we::Binarizer::ReadUint(_File);
 		}
 
-		//!issue ≈сли грузит андефайнед больше чем один раз то ее кажетс€ удал€ет или замен€ет последней андефайнед
-		//»ли что то с ресур менеджером или так оо и работает, вытесн€ет по тому же адресу туже текстуру ибо в этом векторе замен€ет какого то черта. у них индесы как будето адресса, надо проверить на тестовом поинт векторе 
-		//ѕока что силой их на три штуки поставил 
+		
+		//Textures
+		unsigned int _TexturesCount = we::Binarizer::ReadUint(_File);
 		std::vector<we::Texture*> _Textures;
-		//Max textures is 4 for now
-		for (unsigned int t = 1; t < MAX_TEXTURES_COUNT; t++)
+		
+		for (unsigned int t = 1; t < _TexturesCount + 1; t++)
 		{
 			unsigned int _NameSize = we::Binarizer::ReadUint(_File);
-			std::string _Name = we::Binarizer::ReadString(_File, _NameSize);
-			we::Texture* _Texture;
 			if (_NameSize > 0) {
+				std::string _Name = we::Binarizer::ReadString(_File, _NameSize);
+				we::Texture* _Texture;
 				_Texture = reinterpret_cast<we::Texture*>(we::ResourceManager::GetInstance().Hold(_Name, we::TEXTURE, _Meshes.back()));
 				_Texture->SetType(we::TEXTURES(t));
 				_Texture->Init();
 				_Textures.push_back(_Texture);
 			}
-			else {
-				_Texture = reinterpret_cast<we::Texture*>(we::ResourceManager::GetInstance().Hold("undefined.png", we::TEXTURE, _Meshes.back()));
-				_Texture->SetType(we::TEXTURES(t));// ќшибка тут, € редефайню две теже текстуры по тому же адрессу похоже 
-				_Texture->Init();
-				_Textures.push_back(_Texture);
-			}
 		}
 
-		//ѕутаютс€ цвета почему то совсем на оборот идут как будто задом на перед или записывает или считывает не в том пор€дке !!! ”брать нахер из скобок их и нормально их по пор€дку использовать 
 		we::Material _Material;
 		glm::vec3 _ColorProperty;
 		_ColorProperty.r = we::Binarizer::ReadFloat(_File);
